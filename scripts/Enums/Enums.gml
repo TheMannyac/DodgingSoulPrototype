@@ -1,7 +1,15 @@
 
 enum ePlayerInput {
-	up,
-	right,
-	dowm,
-	left,
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT,
+}
+
+enum eSoulAIState {
+	IDLE,
+	DODGE,
+	SPECIAL,
+	DEAD,
+	LEN
 }

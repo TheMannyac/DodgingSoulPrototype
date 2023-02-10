@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "Globals",
+  "name": "struct_Vector2",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "Constants",
-    "path": "folders/Scripts/Constants.yy",
+    "name": "Scripts",
+    "path": "folders/Scripts.yy",
   },
 }

@@ -17,9 +17,17 @@ moveY = 0;
 Hspeed = 0;
 Vspeed = 0;
 
+//AI Parameters---------------------------------
+
+
 //Scripts---------------------------------
-onDamageScript = Soul_OnDamage;
-onDeathScript = Soul_OnDeath;
+OnDamageScript = Soul_OnDamage;
+OnDeathScript = Soul_OnDeath;
+
+stateScripts = array_create(eSoulAIState.LEN,pointer_null);
+//stateScripts[eSoulAIState.IDLE] = 
+//stateScripts[eSoulAIState.SPECIAL] = 
+//stateScripts[eSoulAIState.DODGE] = 
 
 //Manual Input Vars-----------------------
 useManualInput = true;
