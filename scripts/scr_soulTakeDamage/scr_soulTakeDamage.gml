@@ -10,7 +10,7 @@ function Soul_OnDamage(_damageTaken){
 	//Print debug message showing current hp
 	show_debug_message(soulName + ": " + string(currentHp) + "/" + string(maxHp) );
 	
-	if (currentHP <= 0) {
+	if (currentHp <= 0) {
 		//check if the death script variable exists in this scope
 		if (script_exists(onDeathScript)) script_execute(onDeathScript);
 		else show_error(soulName + "'s onDeathScript is not set!!!",true);

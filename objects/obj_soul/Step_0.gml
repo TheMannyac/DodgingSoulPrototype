@@ -13,8 +13,8 @@ if (not useManualInput) {
 	//Take Manual Input
 	inputArray = Get_Player_Input_Array();
 	//Convert and Store Raw Inputs
-	moveX = inputArray[ePlayerInput.right] - inputArray[ePlayerInput.left];
-	moveY = inputArray[ePlayerInput.dowm] - inputArray[ePlayerInput.up];
+	moveX = inputArray[ePlayerInput.RIGHT] - inputArray[ePlayerInput.LEFT];
+	moveY = inputArray[ePlayerInput.DOWN] - inputArray[ePlayerInput.UP];
 	
 	//Horizontal Movement
 	Hspeed = TopDown_Movement_Horizontal(moveX,Hspeed,accelRate,decelRate,maxSpeed);

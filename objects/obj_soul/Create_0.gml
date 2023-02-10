@@ -21,8 +21,8 @@ Vspeed = 0;
 
 
 //Scripts---------------------------------
-OnDamageScript = Soul_OnDamage;
-OnDeathScript = Soul_OnDeath;
+onDamageScript = Soul_OnDamage;
+onDeathScript = Soul_OnDeath;
 
 stateScripts = array_create(eSoulAIState.LEN,pointer_null);
 //stateScripts[eSoulAIState.IDLE] = 
