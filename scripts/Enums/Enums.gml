@@ -13,3 +13,10 @@ enum eSoulAIState {
 	DEAD,
 	LEN
 }
+
+enum eBHVRStages {
+	ENTER,
+	PROCESS,
+	EXIT,
+	LEN
+}

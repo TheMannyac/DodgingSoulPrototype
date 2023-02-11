@@ -24,10 +24,15 @@ Vspeed = 0;
 onDamageScript = Soul_OnDamage;
 onDeathScript = Soul_OnDeath;
 
+currentState = eSoulAIState.IDLE;
+currentStage = eBHVRStages.ENTER;
+
 stateScripts = array_create(eSoulAIState.LEN,pointer_null);
-//stateScripts[eSoulAIState.IDLE] = 
-//stateScripts[eSoulAIState.SPECIAL] = 
-//stateScripts[eSoulAIState.DODGE] = 
+stateScripts[eSoulAIState.IDLE] = func_Idle_Def;
+stateScripts[eSoulAIState.SPECIAL] = func_Special_Def;
+stateScripts[eSoulAIState.DODGE] = func_Dodge_Def;
+
+
 
 //Manual Input Vars-----------------------
-useManualInput = true;
+useManualInput = false;

@@ -8,6 +8,15 @@ if (not useManualInput) {
 	//Think
 	
 	//Act
+	
+	script_execute(stateScripts[currentState]);
+	
+	//Horizontal Movement
+	Hspeed = TopDown_Movement_Horizontal(moveX,Hspeed,accelRate,decelRate,maxSpeed);
+	x += Hspeed;
+	//Vertical Movement
+	Vspeed = TopDown_Movement_Vertical(moveY,Vspeed,accelRate,decelRate,maxSpeed);
+	y += Vspeed;
 
 } else {
 	//Take Manual Input

@@ -20,8 +20,10 @@
     {"name":"Tile Sets","order":2,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":8,"path":"folders/Timelines.yy",},
     {"name":"Behaviors","order":3,"path":"folders/Scripts/AI/Behaviors.yy",},
+    {"name":"Agents","order":5,"path":"folders/Scripts/AI/Agents.yy",},
   ],
   "ResourceOrderSettings": [
+    {"name":"scr_Seek","order":1,"path":"scripts/scr_Seek/scr_Seek.yy",},
     {"name":"scr_playerInput","order":1,"path":"scripts/scr_playerInput/scr_playerInput.yy",},
     {"name":"Sprite2","order":16,"path":"sprites/Sprite2/Sprite2.yy",},
     {"name":"spr_debug_targ","order":1,"path":"sprites/spr_debug_targ/spr_debug_targ.yy",},
