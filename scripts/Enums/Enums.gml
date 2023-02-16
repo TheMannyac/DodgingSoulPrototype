@@ -20,3 +20,7 @@ enum eBHVRStages {
 	EXIT,
 	LEN
 }
+
+enum eBhvrArray {
+	
+}
