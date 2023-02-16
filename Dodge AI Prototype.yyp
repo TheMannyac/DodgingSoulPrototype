@@ -53,6 +53,7 @@
     {"id":{"name":"obj_projectile","path":"objects/obj_projectile/obj_projectile.yy",},"order":0,},
     {"id":{"name":"scr_TopDown_Movement_Funcitons","path":"scripts/scr_TopDown_Movement_Funcitons/scr_TopDown_Movement_Funcitons.yy",},"order":0,},
     {"id":{"name":"scr_soulTakeDamage","path":"scripts/scr_soulTakeDamage/scr_soulTakeDamage.yy",},"order":1,},
+    {"id":{"name":"scr_Agent_Helpers","path":"scripts/scr_Agent_Helpers/scr_Agent_Helpers.yy",},"order":0,},
     {"id":{"name":"struct_Vector2","path":"scripts/struct_Vector2/struct_Vector2.yy",},"order":7,},
     {"id":{"name":"Enums","path":"scripts/Enums/Enums.yy",},"order":1,},
     {"id":{"name":"Globals","path":"scripts/Globals/Globals.yy",},"order":0,},

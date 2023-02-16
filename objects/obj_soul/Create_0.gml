@@ -24,15 +24,32 @@ Vspeed = 0;
 onDamageScript = Soul_OnDamage;
 onDeathScript = Soul_OnDeath;
 
+stateTimer = 10;
+
 currentState = eSoulAIState.IDLE;
 currentStage = eBHVRStages.ENTER;
 
 stateScripts = array_create(eSoulAIState.LEN,pointer_null);
-stateScripts[eSoulAIState.IDLE] = func_Idle_Def;
-stateScripts[eSoulAIState.SPECIAL] = func_Special_Def;
-stateScripts[eSoulAIState.DODGE] = func_Dodge_Def;
 
+//Idle 
+stateScripts[eSoulAIState.IDLE][eBHVRStages.ENTER] = Idle_Start;
+stateScripts[eSoulAIState.IDLE][eBHVRStages.PROCESS] = Idle_Process;
+stateScripts[eSoulAIState.IDLE][eBHVRStages.EXIT] = Idle_Exit;
 
+//Dodge 
+stateScripts[eSoulAIState.DODGE][eBHVRStages.ENTER] = Dodge_Start;
+stateScripts[eSoulAIState.DODGE][eBHVRStages.PROCESS] = Dodge_Process;
+stateScripts[eSoulAIState.DODGE][eBHVRStages.EXIT] = Dodge_Exit;
+
+//Special
+stateScripts[eSoulAIState.SPECIAL][eBHVRStages.ENTER] = Special_Start;
+stateScripts[eSoulAIState.SPECIAL][eBHVRStages.PROCESS] = Special_Process;
+stateScripts[eSoulAIState.SPECIAL][eBHVRStages.EXIT] = Special_Exit;
+
+//Dead
+stateScripts[eSoulAIState.DEAD][eBHVRStages.ENTER] = Dead_Start;
+stateScripts[eSoulAIState.DEAD][eBHVRStages.PROCESS] = Dead_Process;
+stateScripts[eSoulAIState.DEAD][eBHVRStages.EXIT] = Dead_Exit;
 
 //Manual Input Vars-----------------------
 useManualInput = false;

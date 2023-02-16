@@ -6,37 +6,49 @@
 // 2) Execute everything per frame, check if exit needs to be called
 // 3) Exit, undo anything that needs to be undone, move onto next state
 
-function func_Dodge_Def(){
-	
-	switch(currentStage) {
-		case eBHVRStages.ENTER:
-			//run setup code once
-			currentStage = eBHVRStages.PROCESS;
-			{
-				
-			}
-			break;
-		case eBHVRStages.PROCESS:
-			//but before that make sure that the stage variable is accurate
-			//Do the stuff we need to do every tick	
-			{
-				
-			}
-			break;
-		case eBHVRStages.EXIT:
-			{
-				
-			}
-			//do any necesary cleanup before we go to next state
-			break;
-	}
-	
+
+function Idle_Start(){
+	show_debug_message("Entering Idle State");
+}
+function Idle_Process(){
+	//show_debug_message("Idling...");
+}
+function Idle_Exit(){
+	show_debug_message("Exiting Idle State");
 }
 
-function func_Idle_Def(){
-	
+
+
+function Dodge_Start(){
+	show_debug_message("Entering Dodge State");
+}
+function Dodge_Process(){
+	//show_debug_message("Dodging...");
+}
+function Dodge_Exit(){
+	show_debug_message("Exiting Dodge State");
 }
 
-function func_Special_Def(){
-	
+
+
+function Special_Start(){
+	show_debug_message("Entering Speical State");
+}
+function Special_Process(){
+	//show_debug_message("Idling...");
+}
+function Special_Exit(){
+	show_debug_message("Exiting Special State");
+}
+
+
+
+function Dead_Start(){
+	show_debug_message("Entering Idle State");
+}
+function Dead_Process(){
+	//show_debug_message("Idling...");
+}
+function Dead_Exit(){
+	show_debug_message("Exiting Dead State");
 }
