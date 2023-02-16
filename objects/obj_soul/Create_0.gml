@@ -24,10 +24,13 @@ Vspeed = 0;
 onDamageScript = Soul_OnDamage;
 onDeathScript = Soul_OnDeath;
 
-stateTimer = 10;
+stateTimer = 0;	//measures how long the current state has lasted
 
 currentState = eSoulAIState.IDLE;
 currentStage = eBHVRStages.ENTER;
+
+nextState = undefined;
+lastState = undefined;
 
 stateScripts = array_create(eSoulAIState.LEN,pointer_null);
 

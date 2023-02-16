@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "struct_Vector2",
+  "name": "scr_Delta_Helpers",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

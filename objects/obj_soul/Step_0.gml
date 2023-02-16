@@ -1,8 +1,8 @@
 /// @description Input,AI, and Movement
 
 //Clearing Old Inputs
-Hspeed = 0;
-Vspeed = 0;
+moveX = 0;
+moveY = 0;
 
 //If the "useManualInput" flag is set, then the AI code will not run.
 if (not useManualInput) {
@@ -24,10 +24,10 @@ if (not useManualInput) {
 		case eBHVRStages.EXIT:
 			//do any necesary cleanup before we go to next state
 			script_execute(stageFunc);
-			currentStage = eBHVRStages.ENTER
 			break;
 	}
 	
+	stateTimer += Get_Capped_Delta(); //increment state timer
 } else {
 	//Take Manual Input
 	inputArray = Get_Player_Input_Array();
@@ -37,10 +37,22 @@ if (not useManualInput) {
 
 }
 
+
 //Horizontal Movement
-	Hspeed = TopDown_Movement_Horizontal(moveX,Hspeed,accelRate,decelRate,maxSpeed);
-	x += Hspeed;
-	//Vertical Movement
-	Vspeed = TopDown_Movement_Vertical(moveY,Vspeed,accelRate,decelRate,maxSpeed);
-	y += Vspeed;
+Hspeed = TopDown_Movement_Horizontal(moveX,Hspeed,accelRate,decelRate,maxSpeed);
+x += Hspeed * global.delta_multiplier;
+//Vertical Movement
+Vspeed = TopDown_Movement_Vertical(moveY,Vspeed,accelRate,decelRate,maxSpeed);
+y += Vspeed * global.delta_multiplier;
+
+
+//Move to next stage if next state is undefined
+if (nextState != undefined) {
+	lastState = currentState;
+	currentState = nextState;
+	nextState = undefined;
+	currentStage = eBHVRStages.ENTER;
+	stateTimer = 0;
+}
+
 

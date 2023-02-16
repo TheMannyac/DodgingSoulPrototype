@@ -11,6 +11,11 @@ function Idle_Start(){
 	show_debug_message("Entering Idle State");
 }
 function Idle_Process(){
+	
+	//Will exit idle after 3 seconds
+	if (stateTimer > 3) {
+		Agent_Change_State(eSoulAIState.DODGE);
+	}
 	//show_debug_message("Idling...");
 }
 function Idle_Exit(){
