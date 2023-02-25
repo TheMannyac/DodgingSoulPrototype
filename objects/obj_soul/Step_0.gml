@@ -34,16 +34,61 @@ if (not useManualInput) {
 	//Convert and Store Raw Inputs
 	moveX = inputArray[ePlayerInput.RIGHT] - inputArray[ePlayerInput.LEFT];
 	moveY = inputArray[ePlayerInput.DOWN] - inputArray[ePlayerInput.UP];
-
 }
 
+var accelX = 0;
+var accelY = 0;
 
+//Get the cumulative acceloration of each registered Behavior 
+for(var i = 0; i < array_length(registeredBehaviors); i += 1) {
+	
+	var bh = registeredBehaviors[i];
+	
+	if (is_instanceof(bh, SteeringBehavior)) {
+		var vel = script_execute(bh.getVelocity);
+		accelX += vel[0] * bh.weight;
+		accelY += vel[1] * bh.weight;
+	}
+}
+
+//Divide Acceleration by the mass
+Hsp += accelX / Mass;
+Vsp += accelY / Mass;
+
+//Apply Friction
+Hsp -= Hsp * Friction; 
+Vsp -= Vsp * Friction;
+
+//Normalize Vector
+var len = sqr(Hsp^2 + Vsp^2);
+var nHsp = Hsp/len;
+var nVsp = Vsp/len;
+
+//Cap the Speed
+if (len > maxSpeed){
+	Hsp = nHsp * maxSpeed;
+	Vsp = nVsp * maxSpeed;
+}
+
+//Apply Acceleration to coordinate position
+x += Hsp * global.delta_multiplier;
+y += Vsp * global.delta_multiplier;
+
+//Rotate Sprite
+if(rotateSprite && len > 0.0001) {
+	direction = radtodeg(arctan2(Hsp,Vsp));
+	image_angle = direction;
+}
+
+/*
 //Horizontal Movement
-Hspeed = TopDown_Movement_Horizontal(moveX,Hspeed,accelRate,decelRate,maxSpeed);
-x += Hspeed * global.delta_multiplier;
+Hsp = TopDown_Movement_Horizontal(moveX,Hsp,accelRate,decelRate,maxSpeed);
+x += Hsp * global.delta_multiplier;
 //Vertical Movement
-Vspeed = TopDown_Movement_Vertical(moveY,Vspeed,accelRate,decelRate,maxSpeed);
-y += Vspeed * global.delta_multiplier;
+Vsp = TopDown_Movement_Vertical(moveY,Vsp,accelRate,decelRate,maxSpeed);
+y += Vsp * global.delta_multiplier;
+*/
+
 
 
 //Move to next stage if next state is undefined

@@ -1,9 +1,19 @@
-// Script assets have changed for v2.3.0 see
-// https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function scr_Seek(targetLocX, targetLocY, steerForce){
-	var pd = point_direction(x, y, targetLocX, targetLocY)
-	var ad = angle_difference(image_angle, pd);
-	image_angle -= min(abs(ad), steerForce) * sign(ad);
+
+//Returns an array for the velocity vector
+function sb_Seek(_targX,_targY, _weight) : SteeringBehavior(_weight) constructor {
 	
+	targX = _targX;
+	targY = _targY;
+	
+	getVelocity = function() {
+		var dist = point_distance(x,y,targX,targY);
+		
+		var velVec = array_create(2);
+		velVec[0] = ((targX-x/dist) * maxSpeed) * Hsp;
+		velVec[1] = ((targY-y/dist) * maxSpeed) * Vsp;
+		
+		return velVec;
+	}
 	
 }
+

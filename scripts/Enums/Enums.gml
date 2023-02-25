@@ -1,9 +1,9 @@
 
 enum ePlayerInput {
-	UP,
 	RIGHT,
 	DOWN,
 	LEFT,
+	UP
 }
 
 enum eSoulAIState {

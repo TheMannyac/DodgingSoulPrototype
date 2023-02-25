@@ -31,6 +31,7 @@ switch(currentState) {
 		break;
 }
 
+
 //Draw Text
 draw_text(origX+offX,origY+offY,"State: " + str );
 

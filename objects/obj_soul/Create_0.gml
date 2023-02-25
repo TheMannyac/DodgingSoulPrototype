@@ -4,9 +4,18 @@
 soulName = "Jerry"
 maxHp = 100;
 currentHp = maxHp;
+
 accelRate = 1;
 decelRate = accelRate/2;
 maxSpeed = 3.2;
+steerSpeed = 10; //degrees/second
+
+Mass = 5;
+Friction = .05;
+registeredBehaviors = array_create(0);
+
+arriveThreashold = 5;
+rotateSprite = true;
 
 //Movement and Input------------------------
 inputArray = array_create(4,0);
@@ -14,8 +23,13 @@ inputArray = array_create(4,0);
 moveX = 0;
 moveY = 0;
 //The Current Momentum on each axis
-Hspeed = 0;
-Vspeed = 0;
+Hsp = 0;
+Vsp = 0;
+
+//Target Coordinates
+targX = undefined;
+targY = undefined;
+
 
 //AI Parameters---------------------------------
 

@@ -14,3 +14,5 @@
 
 global.delta_capped =	Get_Capped_Delta();
 global.delta_multiplier = Get_Delta_Modifier();
+
+marker = noone;

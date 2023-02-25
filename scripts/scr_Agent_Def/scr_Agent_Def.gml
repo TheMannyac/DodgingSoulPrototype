@@ -12,10 +12,16 @@ function Idle_Start(){
 }
 function Idle_Process(){
 	
-	//Will exit idle after 3 seconds
-	if (stateTimer > 3) {
+	//Wait for target
+	if (targX != undefined && targY != undefined) {
 		Agent_Change_State(eSoulAIState.DODGE);
 	}
+	
+	
+	//Will exit idle after 3 seconds
+	//if (stateTimer > 3) {
+		//Agent_Change_State(eSoulAIState.DODGE);
+	//}
 	//show_debug_message("Idling...");
 }
 function Idle_Exit(){
@@ -28,10 +34,28 @@ function Dodge_Start(){
 	show_debug_message("Entering Dodge State");
 }
 function Dodge_Process(){
+	
+	var _dist = point_distance(x,y,targX,targY);
+	
+	if (_dist < arriveThreashold) {
+		//we have arrived
+		Agent_Change_State(eSoulAIState.IDLE)
+	} else {
+		//Steer toward target position
+		var _dir = point_direction(x, y, targX, targX);
+		var _angleDiff = angle_difference(_dir, direction);
+		direction += _angleDiff * 0.3 * global.delta_multiplier; //this natually starts fast and gradually slows
+		
+		//Move
+		
+	}
+	
 	//show_debug_message("Dodging...");
 }
 function Dodge_Exit(){
 	show_debug_message("Exiting Dodge State");
+	targX = undefined;
+	targY = undefined;
 }
 
 
