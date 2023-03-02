@@ -29,12 +29,14 @@ function Idle_Exit(){
 }
 
 
-
 function Dodge_Start(){
 	show_debug_message("Entering Dodge State");
+	//Register Behaviors
+	ds_list_add(ds_behaviorList,new sb_Seek(targX,targY,1));
+	ds_list_add(ds_behaviorList,new sb_Arrive(targX,targY,1));
 }
 function Dodge_Process(){
-	
+	/*
 	var _dist = point_distance(x,y,targX,targY);
 	
 	if (_dist < arriveThreashold) {
@@ -42,14 +44,13 @@ function Dodge_Process(){
 		Agent_Change_State(eSoulAIState.IDLE)
 	} else {
 		//Steer toward target position
+		/*
 		var _dir = point_direction(x, y, targX, targX);
 		var _angleDiff = angle_difference(_dir, direction);
 		direction += _angleDiff * 0.3 * global.delta_multiplier; //this natually starts fast and gradually slows
 		
-		//Move
-		
 	}
-	
+	*/
 	//show_debug_message("Dodging...");
 }
 function Dodge_Exit(){
@@ -57,8 +58,6 @@ function Dodge_Exit(){
 	targX = undefined;
 	targY = undefined;
 }
-
-
 
 function Special_Start(){
 	show_debug_message("Entering Speical State");

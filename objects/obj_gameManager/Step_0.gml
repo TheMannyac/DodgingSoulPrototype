@@ -15,4 +15,11 @@
 global.delta_capped =	Get_Capped_Delta();
 global.delta_multiplier = Get_Delta_Modifier();
 
-marker = noone;
+if (mouse_check_button_pressed(mb_left)) {
+	if (instance_exists(marker)) 
+		instance_destroy(marker);
+
+	marker = instance_create_layer(mouse_x,mouse_y,"Markers",obj_navMarker);
+
+	show_debug_message("Marker Spawned");
+}

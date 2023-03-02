@@ -1,9 +1,9 @@
 
 
-function sb_Arrive(_fleeX,_fleeY, _weight,_slowRad=1,_stopRad=.4) : SteeringBehavior(_weight) constructor {
+function sb_Arrive(_targX,_targY, _weight,_slowRad=1,_stopRad=.4) : SteeringBehavior(_weight) constructor {
 	
-	fleeX = _fleeX;
-	fleeY = _fleeY;
+	targX = _targX;
+	targY = _targY;
 	
 	//The threashold where the agent begins to slow
 	slowRadius = _slowRad;

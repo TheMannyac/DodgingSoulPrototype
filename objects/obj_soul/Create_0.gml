@@ -11,10 +11,14 @@ maxSpeed = 3.2;
 steerSpeed = 10; //degrees/second
 
 Mass = 5;
-Friction = .05;
-registeredBehaviors = array_create(0);
+Friction = .05;	//Percent of velocity that is reduced every from
 
-arriveThreashold = 5;
+/*	List of registered behavior structs
+	Could be a priority queue if needed you would just to to refactor some funcitons
+*/
+ds_behaviorList = ds_list_create()
+
+arriveThreashold = 2;
 rotateSprite = true;
 
 //Movement and Input------------------------

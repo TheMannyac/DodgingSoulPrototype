@@ -12,3 +12,16 @@ function Agent_Change_State(_nxtState){
 	nextState = _nxtState;
 }
 
+
+function Agent_Register_Behavior(_bhStruct) {
+	_bhStruct.agentID = id;
+	ds_list_add(ds_behaviorList,_bhStruct);
+}
+
+function Agent_Unregister_Behavior() {
+	
+}
+
+function Agent_Unregister_All_Behaviors() {
+	ds_list_clear(ds_behaviorList);
+}

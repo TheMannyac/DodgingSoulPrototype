@@ -40,11 +40,11 @@ var accelX = 0;
 var accelY = 0;
 
 //Get the cumulative acceloration of each registered Behavior 
-for(var i = 0; i < array_length(registeredBehaviors); i += 1) {
+for(var i = 0; i < ds_list_size(ds_behaviorList); i += 1) {
 	
-	var bh = registeredBehaviors[i];
+	var bh = ds_list_find_value(ds_behaviorList,i);
 	
-	if (is_instanceof(bh, SteeringBehavior)) {
+	if ((bh != undefined) && (is_instanceof(bh, SteeringBehavior)) ) {
 		var vel = script_execute(bh.getVelocity);
 		accelX += vel[0] * bh.weight;
 		accelY += vel[1] * bh.weight;
@@ -89,15 +89,16 @@ Vsp = TopDown_Movement_Vertical(moveY,Vsp,accelRate,decelRate,maxSpeed);
 y += Vsp * global.delta_multiplier;
 */
 
-
-
 //Move to next stage if next state is undefined
 if (nextState != undefined) {
+	
 	lastState = currentState;
 	currentState = nextState;
 	nextState = undefined;
 	currentStage = eBHVRStages.ENTER;
 	stateTimer = 0;
+	
+	ds_list_clear(ds_behaviorList);
 }
 
 
