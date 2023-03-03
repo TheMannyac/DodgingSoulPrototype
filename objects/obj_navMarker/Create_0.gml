@@ -2,8 +2,9 @@
 
 //on create set the target of the 
 with (obj_soul) {
-	targX = other.x;
-	targY = other.y;
+	Agent_Change_State(eSoulAIState.DODGE);
+	
+	Agent_Update_Target_Point(other.x,other.y);
 }
 /*
 //probably not efficient

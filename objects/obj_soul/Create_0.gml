@@ -18,6 +18,13 @@ Friction = .05;	//Percent of velocity that is reduced every from
 */
 ds_behaviorList = ds_list_create()
 
+/*struct that contains variables that only pertain to a given state
+	allows temporary variables to be stored between steps but aren't saved in object scope
+	the struct is typically wiped when a state transition happens
+	for that reason, this should only be set or accessed in the state method
+*/
+state_vars_struct = noone;
+
 arriveThreashold = 2;
 rotateSprite = true;
 

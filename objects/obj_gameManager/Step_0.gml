@@ -15,6 +15,7 @@
 global.delta_capped =	Get_Capped_Delta();
 global.delta_multiplier = Get_Delta_Modifier();
 
+//spawn marker on click
 if (mouse_check_button_pressed(mb_left)) {
 	if (instance_exists(marker)) 
 		instance_destroy(marker);

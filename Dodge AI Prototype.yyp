@@ -48,6 +48,7 @@
     {"id":{"name":"Sprite2","path":"sprites/Sprite2/Sprite2.yy",},"order":16,},
     {"id":{"name":"scr_Agent_Def","path":"scripts/scr_Agent_Def/scr_Agent_Def.yy",},"order":0,},
     {"id":{"name":"obj_gameManager","path":"objects/obj_gameManager/obj_gameManager.yy",},"order":4,},
+    {"id":{"name":"scr_vector_struct","path":"scripts/scr_vector_struct/scr_vector_struct.yy",},"order":10,},
     {"id":{"name":"Sprite5","path":"sprites/Sprite5/Sprite5.yy",},"order":17,},
     {"id":{"name":"spr_debug_targ","path":"sprites/spr_debug_targ/spr_debug_targ.yy",},"order":1,},
     {"id":{"name":"Macros","path":"scripts/Macros/Macros.yy",},"order":2,},

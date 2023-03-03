@@ -31,11 +31,27 @@ function Idle_Exit(){
 
 function Dodge_Start(){
 	show_debug_message("Entering Dodge State");
-	//Register Behaviors
-	ds_list_add(ds_behaviorList,new sb_Seek(targX,targY,1));
-	ds_list_add(ds_behaviorList,new sb_Arrive(targX,targY,1));
+
+	//Register Seek Behavior
+	Agent_Register_Behavior(new sb_Seek(targX,targY,1));
+	
+	//Register arrive behavior
+	var arrive = new sb_Arrive(targX,targY,1)
+	Agent_Register_Behavior(arrive);
+	
+	state_vars_struct = 
+	{
+		arriveBH : arrive
+	}
+
 }
 function Dodge_Process(){
+	
+	//idle once we reach destination
+	if (state_vars_struct.arriveBH.hasArrived()) {
+		Agent_Change_State(eSoulAIState.IDLE);
+	}
+	
 	/*
 	var _dist = point_distance(x,y,targX,targY);
 	
