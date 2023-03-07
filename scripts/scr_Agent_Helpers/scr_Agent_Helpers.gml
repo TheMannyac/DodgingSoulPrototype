@@ -71,5 +71,17 @@ function Agent_Update_Target_Point(xx,yy) {
 		var bh = ds_list_find_value(ds_behaviorList,i);
 		bh.setTargetPoint(targX,targY);
 	}
+}
+
+function Agent_Set_Draw_Debug(_debugOn) {
 	
+	if (not is_bool(_debugOn)) {
+		show_error("Passed arg is not bool!", false);
+		return;
+	}
+	
+	for (var i=0; i < ds_list_size(ds_behaviorList); i++) {
+		var bh = ds_list_find_value(ds_behaviorList,i);
+		bh.drawGizmos = _debugOn;
+	}
 }

@@ -7,8 +7,11 @@ currentHp = maxHp;
 
 accelRate = 1;
 decelRate = accelRate/2;
+currenSpeed = 0;
 maxSpeed = 3.2;
 steerSpeed = 10; //degrees/second
+
+sensorInst = noone
 
 Mass = 5;
 Friction = .05;	//Percent of velocity that is reduced every from

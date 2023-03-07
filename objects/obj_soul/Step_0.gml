@@ -49,12 +49,12 @@ if (not useManualInput) {
 	Vsp -= Vsp * Friction;
 
 	//Get magnitude of vector
-	var len = vector2_get_length_2arg(Hsp,Vsp);
+	currentSpeed = vector2_get_length_2arg(Hsp,Vsp);
 	//Normalize Vector
 	var normVec = vector2_normalize_2arg(Hsp,Vsp);
 
 	//Cap the Speed
-	if (len > maxSpeed){
+	if (currentSpeed > maxSpeed){
 		Hsp = normVec[0] * maxSpeed;
 		Vsp = normVec[1] * maxSpeed;
 	}
