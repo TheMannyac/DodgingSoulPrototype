@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_Delta_Helpers",
+  "name": "scr_move_contact_obj",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "Misc",
-    "path": "folders/Scripts/Misc.yy",
+    "name": "Collision & Physics",
+    "path": "folders/Scripts/Collision & Physics.yy",
   },
 }
