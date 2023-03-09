@@ -8,10 +8,10 @@ currentHp = maxHp;
 accelRate = 1;
 decelRate = accelRate/2;
 currenSpeed = 0;
-maxSpeed = 3.2;
-steerSpeed = 10; //degrees/second
+maxSpeed = 3.5;
+turnSpeed = 10; //degrees/second
+brakeFactor = .2;	//multiplier applied to current speed when manually braking
 
-sensorInst = noone
 
 Mass = 5;
 Friction = .05;	//Percent of velocity that is reduced every from
@@ -33,9 +33,10 @@ rotateSprite = true;
 
 //Movement and Input------------------------
 inputArray = array_create(4,0);
-//The Direction Vector that the soul wants to move 
-moveX = 0;
-moveY = 0;
+
+//The Vector representing the current steering force (unnormalized)
+steerVec = [0,0];
+
 //The Current Momentum on each axis
 Hsp = 0;
 Vsp = 0;
@@ -50,7 +51,7 @@ targY = undefined;
 
 //Scripts---------------------------------
 onDamageScript = Soul_OnDamage;
-onDeathScript = Soul_OnDeath;
+//onDeathScript = Soul_OnDeath;
 
 stateTimer = 0;	//measures how long the current state has lasted
 

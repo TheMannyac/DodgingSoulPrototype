@@ -39,6 +39,9 @@ function Dodge_Start(){
 	var arrive = new sb_Arrive(targX,targY,1)
 	Agent_Register_Behavior(arrive);
 	
+	//Register Obstacle Avoidance
+	Agent_Register_Behavior(new sb_Obstacle_Avoidance(2,sprite_width+30,obj_projectile,1))
+	
 	state_vars_struct = 
 	{
 		arriveBH : arrive

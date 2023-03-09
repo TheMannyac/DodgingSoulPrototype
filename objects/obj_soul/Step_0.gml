@@ -24,9 +24,8 @@ if (not useManualInput) {
 			break;
 	}
 	
-	
-	var accelX = 0;
-	var accelY = 0;
+	//zero out previous steer vector
+	steerVec = [0,0];
 
 	//Get the cumulative acceloration of each registered Behavior 
 	for(var i = 0; i < ds_list_size(ds_behaviorList); i += 1) {
@@ -35,14 +34,15 @@ if (not useManualInput) {
 	
 		if ((bh != undefined) && (is_instanceof(bh, SteeringBehavior)) ) {
 			var vel = bh.getVelocity();
-			accelX += vel[0] * bh.weight;
-			accelY += vel[1] * bh.weight;
+			steerVec[0] += vel[0] * bh.weight;
+			steerVec[1] += vel[1] * bh.weight;
 		}
 	}
-
+	
+	
 	//Divide Acceleration by the mass
-	Hsp += accelX / Mass;
-	Vsp += accelY / Mass;
+	Hsp += steerVec[0] / Mass;
+	Vsp += steerVec[1] / Mass;
 
 	//Apply Friction
 	Hsp -= Hsp * Friction; 
@@ -58,15 +58,23 @@ if (not useManualInput) {
 		Hsp = normVec[0] * maxSpeed;
 		Vsp = normVec[1] * maxSpeed;
 	}
-
-	//Apply Acceleration to coordinate position
-	x += Hsp * global.delta_multiplier;
-	y += Vsp * global.delta_multiplier;
-
-	//Rotate Sprite
-	if(rotateSprite && len > 0.0001) {
-		direction = radtodeg(arctan2(Vsp,Hsp));
-		image_angle = direction;
+	
+	//Only apply a force if the magnitude of the current velocity is high enough.
+	if (currentSpeed > 0.0001) {
+		
+		//Apply Acceleration to coordinate position
+		x += Hsp * global.delta_multiplier;
+		y += Vsp * global.delta_multiplier;
+	
+		//Update Direction
+		direction = radtodeg( arctan2(normVec[1],normVec[0]) );
+	
+		//Rotate Sprite
+		if(rotateSprite) image_angle = direction;
+		
+	} else {
+		//zero out velocity
+		Hsp = 0; Vsp = 0;	
 	}
 	
 	//increment state timer

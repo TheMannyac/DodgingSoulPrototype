@@ -33,3 +33,7 @@ function vector2_get_length_2arg(xx,yy) {
 	return sqrt(xx*xx + yy*yy);
 }
 
+function vector2_to_degrees_2arg(xx,yy) {
+	return radtodeg( arctan2(yy,yy));
+}
+
