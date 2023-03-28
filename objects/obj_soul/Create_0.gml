@@ -61,7 +61,7 @@ currentStage = eBHVRStages.ENTER;
 nextState = undefined;
 lastState = undefined;
 
-stateScripts = array_create(eSoulAIState.LEN,pointer_null);
+//stateScripts = array_create(eSoulAIState.LEN,pointer_null);
 
 //Idle 
 stateScripts[eSoulAIState.IDLE][eBHVRStages.ENTER] = Idle_Start;

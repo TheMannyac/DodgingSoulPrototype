@@ -22,5 +22,5 @@ if (mouse_check_button_pressed(mb_left)) {
 
 	marker = instance_create_layer(mouse_x,mouse_y,"Markers",obj_navMarker);
 
-	show_debug_message("Marker Spawned");
+
 }

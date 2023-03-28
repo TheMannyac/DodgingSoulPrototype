@@ -7,17 +7,22 @@
 	calling these elsewhere will cause weird stuff to happen
 */
 
-//Use to ensure that state change is done correctly
-function Agent_Change_State(_nxtState){
+
+
+
+//Use to ensure that state change is done correctly\
+//Current implementation means that state change happens at the end of the next frame,
+// not at the end of the current one.
+function Agent_Change_State(_nextState){
 	
 	//checks if arg is integer
-	if (floor(_nxtState) != _nxtState)  
+	if (floor(_nextState) != _nextState)  
 		show_error("argument is not valid integer meaning that it cannot be a valid state ID",true);
 	//returns if the argument equals the current state
-	if(_nxtState == currentState) return 
+	if(_nextState == currentState) return 
 	
 	currentStage = eBHVRStages.EXIT;
-	nextState = _nxtState;
+	nextState = _nextState;
 }
 
 

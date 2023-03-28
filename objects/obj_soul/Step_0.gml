@@ -39,7 +39,6 @@ if (not useManualInput) {
 		}
 	}
 	
-	
 	//Divide Acceleration by the mass
 	Hsp += steerVec[0] / Mass;
 	Vsp += steerVec[1] / Mass;
@@ -74,7 +73,7 @@ if (not useManualInput) {
 		//radtodeg( arctan2(normVec[1],normVec[0]) );
 	
 		//Rotate Sprite
-		if(rotateSprite) image_angle = direction;
+		if(rotateSprite && currentSpeed > 0.1) image_angle = direction;
 		
 	} else {
 		//zero out velocity
@@ -87,6 +86,9 @@ if (not useManualInput) {
 	//Move to next stage if next state is defined
 	if (nextState != undefined) {
 	
+		//Execute the Exit Script
+		script_execute(stateScripts[currentState][eBHVRStages.EXIT]);
+		
 		lastState = currentState;
 		currentState = nextState;
 		nextState = undefined;

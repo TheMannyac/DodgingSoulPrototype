@@ -36,11 +36,11 @@ function Dodge_Start(){
 	Agent_Register_Behavior(new sb_Seek(targX,targY,1));
 	
 	//Register arrive behavior
-	var arrive = new sb_Arrive(targX,targY,1)
+	var arrive = new sb_Arrive(targX,targY,5,100,30)
 	Agent_Register_Behavior(arrive);
 	
 	//Register Obstacle Avoidance
-	Agent_Register_Behavior(new sb_Obstacle_Avoidance(2,sprite_width+30,obj_projectile,1))
+	Agent_Register_Behavior(new sb_Obstacle_Avoidance(2,sprite_width+30,obj_projectile,10))
 	
 	state_vars_struct = 
 	{
@@ -87,8 +87,6 @@ function Special_Process(){
 function Special_Exit(){
 	show_debug_message("Exiting Special State");
 }
-
-
 
 function Dead_Start(){
 	show_debug_message("Entering Idle State");
