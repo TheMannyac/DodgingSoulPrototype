@@ -51,7 +51,7 @@ function Dodge_Start(){
 function Dodge_Process(){
 	
 	//idle once we reach destination
-	if (state_vars_struct.arriveBH.hasArrived()) {
+	if (state_vars_struct.arriveBH.getArrivalStatus() == eArrivalStatus.ARRIVED) {
 		Agent_Change_State(eSoulAIState.IDLE);
 	}
 	

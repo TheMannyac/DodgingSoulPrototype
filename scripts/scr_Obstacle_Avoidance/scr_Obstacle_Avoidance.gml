@@ -117,7 +117,7 @@ function sb_Obstacle_Avoidance(_weight,_minSweepLen,_avoiObj,_acc=1,StepMethod=p
 		return 	minSweepLength + (agentID.currentSpeed/agentID.maxSpeed) * minSweepLength;
 	}
 	
-	drawGizmos = function() {
+	onDrawGizmos = function() {
 		
 	}
 }

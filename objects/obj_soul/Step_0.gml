@@ -62,12 +62,16 @@ if (not useManualInput) {
 	//Only apply a force if the magnitude of the current velocity is high enough.
 	if (currentSpeed > 0.0001) {
 		
+		var oldX = x , oldY = y;
+		
 		//Apply Acceleration to coordinate position
 		x += Hsp * global.delta_multiplier;
 		y += Vsp * global.delta_multiplier;
 	
 		//Update Direction
-		direction = radtodeg( arctan2(normVec[1],normVec[0]) );
+		direction = point_direction(oldX,oldY,x,y)
+		
+		//radtodeg( arctan2(normVec[1],normVec[0]) );
 	
 		//Rotate Sprite
 		if(rotateSprite) image_angle = direction;

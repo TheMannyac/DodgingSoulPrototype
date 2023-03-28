@@ -85,3 +85,16 @@ function Agent_Set_Draw_Debug(_debugOn) {
 		bh.drawGizmos = _debugOn;
 	}
 }
+
+//Only call in the draw event of the instance.
+function Agent_Draw_Behavior_Gizmos(ignoreDrawFlag=false){
+	
+	for (var i=0; i < ds_list_size(ds_behaviorList); i++) {
+		var bh = ds_list_find_value(ds_behaviorList,i);
+		
+		
+		if ( bh.drawGizmos or ignoreDrawFlag) {
+			bh.onDrawGizmos();
+		}
+	}
+}

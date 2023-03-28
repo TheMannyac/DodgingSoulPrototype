@@ -5,7 +5,7 @@ function SteeringBehavior(_targetPointX,_targetPointY,_weight=1,_agentID=noone) 
 	targetPointY = _targetPointY;
 	weight = _weight;
 	agentID = _agentID;
-	drawGizmos = false;	
+	drawGizmos = true;	
 	
 	//function that MUST return a vector array
 	getVelocity = function() {
@@ -15,9 +15,7 @@ function SteeringBehavior(_targetPointX,_targetPointY,_weight=1,_agentID=noone) 
 	
 	//Called when drawing debug tools; Only call in draw event; most implementations should use this
 	onDrawGizmos = function() {
-		if (drawGizmos){
-			
-		}
+		
 	}
 	
 	function setTargetPoint(xx,yy) {
