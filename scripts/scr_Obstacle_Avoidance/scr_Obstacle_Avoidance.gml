@@ -118,6 +118,11 @@ function sb_Obstacle_Avoidance(_weight,_minSweepLen,_avoiObj,_acc=1,StepMethod=p
 	}
 	
 	onDrawGizmos = function() {
+		var xx = agentID.x, yy = agentID.y;
+		var sweepLen = get_sweep_length();
+		var sweep_end_x = xx + lengthdir_x(sweepLen,agentID.direction);
+		var sweep_end_y = yy + lengthdir_y(sweepLen,agentID.direction);
 		
+		draw_line_color(xx,yy,sweep_end_x,sweep_end_y,c_green,c_lime);
 	}
 }

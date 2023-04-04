@@ -7,6 +7,8 @@ function sb_Arrive(_targetPointX,_targetPointY, _weight,_slowRad=150,_stopRad=10
 	slowRadius = _slowRad;
 	//The threashold where the agent stops
 	stopRadius = _stopRad;
+	//DrawGizmos
+	drawGizmos = false;
 	
 	getVelocity = function() {
 		var xx = agentID.x;

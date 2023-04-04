@@ -4,7 +4,7 @@ function Get_Capped_Delta(){
 	
 	//This ensures that the delta cannot be too large; which prevents errors such as the one regarding the delta and the debugger
 	var realDeltaTime = delta_time / 1000000 ;
-	var fallBackDeltaTime = game_get_speed(gamespeed_microseconds) /1000000;
+		var fallBackDeltaTime = game_get_speed(gamespeed_microseconds) /1000000;
 	return (realDeltaTime < fallBackDeltaTime) ? realDeltaTime : fallBackDeltaTime;
 }
 
