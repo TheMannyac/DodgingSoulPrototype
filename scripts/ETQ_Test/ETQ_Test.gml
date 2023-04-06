@@ -1,16 +1,14 @@
 
 
-function ETQ_Test(_filter,_scoring,_reference) constructor {
+function ETQ_Test(testName,_filter,_scoring,_reference) constructor {
 	
-	
-	
-	if (is_instanceof(_filter,Filter)) {
+	if (is_instanceof(_filter,FilterSettings)) {
 		FilterProps = _filter;
 	} else {
 		FilterProps = undefined;	
 	}
 	
-	if (is_instanceof(_scoring,Scoring)) {
+	if (is_instanceof(_scoring,ScoringSettings)) {
 		ScoringProps = _scoring;
 	} else {
 		ScoringProps = undefined;	
@@ -25,27 +23,51 @@ function ETQ_Test(_filter,_scoring,_reference) constructor {
 	
 	static requireReference = true;
 	
-	/*Methods*/
-	static RunTest = function (items) {
-		//Try to Fail Early
+	/*Abstract Methdos*/
+	static TestItem = function (itemStruct) {
+		/*validate item data*/
 		
+		/* DO STUFF */
+		
+		//Return calculated result
+		show_error("Test's 'TestItem' function not implemented into template",false);
+		return undefined;
 	}
 	
-	static 
+	static FilterResult = function (value) {
+		/*validate value*/
+		
+		/* check result using filter properties*/
+		
+		//Return bool determining if value passed or not
+		show_error("Test's 'FilterItem' function not implemented into template",false);
+		return false;
+	}
+	
+	static ScoreResult = function (value) {
+		/*validate value*/
+		
+		/* Assign score using Scoring Properties*/
+		
+		//Return normalized score value
+		show_error("Test's 'ScoreItem' function not implemented into template",false);
+		return false;
+	}
 	
 }
 
-function Filter(_boolToMatch) constructor {
+function FilterSettings(_boolToMatch) constructor {
 	boolToMatch = _boolToMatch;
 	
-	static 
 }
 
-function FilterFloat(_boolToMatch,_filterType,_minVal=0,_maxVal=1) : Filter(_boolToMatch) constructor {
+function FilterSettings_Float(_boolToMatch,_filterType,_minVal=0,_bMinInclusive=false,_maxVal=1,_bMaxInclusive=false) : FilterSettings(_boolToMatch) constructor {
 	filterType = _filterType;
 	
 	minVal = _minVal;
+	bMinInclusive = _bMinInclusive;
 	maxVal = _maxVal;
+	bMaxInclusive = _bMaxInclusive;
 }
 
 enum ETQ_FilterType {
@@ -54,7 +76,7 @@ enum ETQ_FilterType {
 	range
 }
 
-function Scoring(_scoreFactor,_referenceValue,_relativeNormal,_clampMin=0,_clampMax=0) constructor {
+function ScoringSettings(_scoreFactor,_referenceValue,_relativeNormal,_clampMin=0,_clampMax=0) constructor {
 	
 }
 
