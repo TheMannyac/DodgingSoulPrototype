@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "ETQ_QueryTemplate",
+  "name": "ETQ_",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "Query Templates",
-    "path": "folders/Scripts/AI/ETQ/Query Templates.yy",
+    "name": "ETQ",
+    "path": "folders/Scripts/AI/ETQ.yy",
   },
 }

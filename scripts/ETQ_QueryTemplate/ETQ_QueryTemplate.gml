@@ -4,12 +4,12 @@ function ETQ_Query(_contextObj) constructor {
 	
 	ContextObject = _contextObj;
 	ds_itemList = ds_list_create();
-	ds_optionList = ds_list_create();
+	optionsArray = array_create();
 	
 	static RunQuery = function() {
 		
-		for (var i = 0; i < ds_list_size(ds_optionList); i++){
-			var option = ds_list_find_value(ds_optionList,i);
+		for (var i = 0; i < array_length(optionsArray); i++){
+			var option = optionsArray[i];
 			
 			ds_list_clear(ds_itemList);
 			option.Generate_List(ds_itemList);
@@ -17,31 +17,23 @@ function ETQ_Query(_contextObj) constructor {
 			//if there's nothing that came from this option's generator then move on 
 			if (ds_list_empty(ds_itemList)) continue;
 			
-			var ds_tests = option.ds_testList;
-			
-			for (var j=0; j < ds_list_size(ds_tests); j++) {
-				var test = ds_list_find_value(ds_tests,j);
+			//Run Tests on all things
+			var testArr = option.tests;
+			for (var j = 0; j < array_length(tests); j++) {
+				var test = option.tests[j];
 				
-				if ( instance_exists(test.reference) || not test.requireReference ) {
-					
-					//check for fixed result
-					
-					// do conditional
-					if (test.isCondition) {
-							
-					}
-					
-					// calculate weight
-					if (test.isWeightPreference) {
-						
-					}
-					
-				}
+				
+				
+				
+			
+				
 			}
+			
 			
 			//Add up weights
 			
-			
+			//return success
+			return true;
 		}
 		
 	}

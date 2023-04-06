@@ -1,53 +1,60 @@
 
 
-function ETQ_Test(_testType,_reference,_weight,_testedValue,_isWeightPreference,_isCondition,_isValidityTest,_comparisonType) constructor {
+function ETQ_Test(_filter,_scoring,_reference) constructor {
 	
-	//The kind of test that is being made.
-	testType = _testType
 	
+	
+	if (is_instanceof(_filter,Filter)) {
+		FilterProps = _filter;
+	} else {
+		FilterProps = undefined;	
+	}
+	
+	if (is_instanceof(_scoring,Scoring)) {
+		ScoringProps = _scoring;
+	} else {
+		ScoringProps = undefined;	
+	}
+	
+	if (FilterProps == undefined && ScoringProps == undefined) {
+		show_error("TEST HAS NEIETHER FILTER OR SCORING",true); 	
+	}
+
 	//Object Type or instance to compare against (self,obj_projectile, etc.)
 	reference = _reference;
+	
 	static requireReference = true;
 	
-	//value to compare against
-	_testedValue = _testType;
-	
-	weight = _weight;
-	
-	/*flags*/
-	static isWeightPreference = _isWeightPreference;
-	static isCondition = _isCondition;
-	static isValidityTest = _isValidityTest;
-	
 	/*Methods*/
-	static CalculateWeight = function(item) {
+	static RunTest = function (items) {
+		//Try to Fail Early
 		
 	}
 	
+	static 
 	
-	function RunTest(itemList) {
-		
-		
-		if (isCondition) {
-			
-		}
-		
-		if (isWeightPreference) {
-			
-			var itemWeight = CalculateWeight
-		}
-	}
 }
 
-enum ETQ_TestType {
-	Distance,
-	Reachable
+function Filter(_boolToMatch) constructor {
+	boolToMatch = _boolToMatch;
+	
+	static 
 }
 
-enum ETQ_ComparisionType {
-	none,
-	lessThan,
-	greaterThan,
-	equalTo,
-	notEqualTo
+function FilterFloat(_boolToMatch,_filterType,_minVal=0,_maxVal=1) : Filter(_boolToMatch) constructor {
+	filterType = _filterType;
+	
+	minVal = _minVal;
+	maxVal = _maxVal;
 }
+
+enum ETQ_FilterType {
+	minimum,
+	maximum,
+	range
+}
+
+function Scoring(_scoreFactor,_referenceValue,_relativeNormal,_clampMin=0,_clampMax=0) constructor {
+	
+}
+

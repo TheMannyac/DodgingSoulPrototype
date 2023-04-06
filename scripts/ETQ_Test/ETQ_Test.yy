@@ -5,7 +5,7 @@
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "ETQ",
-    "path": "folders/Scripts/AI/ETQ.yy",
+    "name": "Tests",
+    "path": "folders/Scripts/AI/ETQ/Tests.yy",
   },
 }

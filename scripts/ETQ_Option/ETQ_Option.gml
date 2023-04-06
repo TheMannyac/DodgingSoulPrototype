@@ -1,15 +1,40 @@
 
-function ETQ_Option(_gentype, _radius,_context) constructor {
+function ETQ_Option(_gentype, _radius,_context, _optionName="") constructor {
 	
 	generatorType = _gentype;
 	radius = _radius;
-	ds_testList = ds_list_create();
+	optionName = _optionName;
+	tests = array_create(0);
 	
 	//can be object or location
 	context = _context
 	
-	function Generate_List(_list) {
+	function RunTests(items) {
 		
+		for (var i=0; i < ds_list_size(tests); i++) {
+			var test = ds_list_find_value(i);
+			//First Filter out failures
+			if (test.filterProps != undefined) {
+				
+				var itr = 0;
+				while (itr < ds_list_size(items)) {
+					var thisItem = ds_list_find_value(items,itr);
+					
+					if () {
+						
+					}
+					
+				}
+			}
+				
+			//Then Score the survivors
+			if (test.ScoringProps != undefined) {
+				
+			}
+		}
+	}
+	
+	function Generate_List(_list) {
 		switch(generatorType) {
 			case ETQ_GeneratorType.LocalGridPoints:
 				var xx,yy;
@@ -35,6 +60,7 @@ function ETQ_Option(_gentype, _radius,_context) constructor {
 					xx = context.x;
 					yy = context.y;
 				}
+				//fill the list with all instances at cente
 				collision_circle_list(xx,yy,radius,obj_projectile,false,true,_list,false);
 				return;
 		}
