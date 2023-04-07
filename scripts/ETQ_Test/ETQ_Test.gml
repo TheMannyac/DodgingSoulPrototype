@@ -1,6 +1,8 @@
 
 
-function ETQ_Test(testName,_filter,_scoring,_reference) constructor {
+function ETQ_Test(_filter,_scoring,_reference,_testDescrip="Test Template to build other tests off of") constructor {
+	
+	testDescrip = _testDescrip;
 	
 	if (is_instanceof(_filter,FilterSettings)) {
 		FilterProps = _filter;
@@ -68,6 +70,33 @@ function FilterSettings_Float(_boolToMatch,_filterType,_minVal=0,_bMinInclusive=
 	bMinInclusive = _bMinInclusive;
 	maxVal = _maxVal;
 	bMaxInclusive = _bMaxInclusive;
+	
+	function checkVal(val){
+		switch (filterType) {
+			case ETQ_FilterType.maximum:
+			return isBelowMax(val);
+			
+			case ETQ_FilterType.minimum:
+			return isAboveMin(val);
+			
+			case ETQ_FilterType.range:
+			return (isAboveMin(val) and isBelowMax(val)) == boolToMatch;
+		}
+	}
+	
+	function isAboveMin(val) {
+		if (bMinInclusive)
+			return minVal <= val;
+		else
+			return minVal < val
+	}
+	
+	function isBelowMax(val) {
+		if (bMaxInclusive)
+			return maxVal >= val;
+		else
+			return maxVal > val
+	}
 }
 
 enum ETQ_FilterType {
@@ -76,7 +105,19 @@ enum ETQ_FilterType {
 	range
 }
 
-function ScoringSettings(_scoreFactor,_referenceValue,_relativeNormal,_clampMin=0,_clampMax=0) constructor {
+function ScoringSettings(_scoreFactor,_refVal,_relativeNormal,_clampMin=0,_clampMax=0) constructor {
+	scoreFactor = _scoreFactor;
+	refVal = _refVal;
+	relativeNormal =_relativeNormal;
+	clampMax = _clampMax;
+	clampMin = _clampMin;
 	
+	function scoreValue() {
+		//nomralize value 
+		
+		//calculate score
+		
+		//return result.
+	}
 }
 

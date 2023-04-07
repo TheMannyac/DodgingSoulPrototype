@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "ETQ_",
+  "name": "scr_ds_list_struct_sort",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "ETQ",
-    "path": "folders/Scripts/AI/ETQ.yy",
+    "name": "Misc",
+    "path": "folders/Scripts/Misc.yy",
   },
 }

@@ -51,7 +51,6 @@
   "resources": [
     {"id":{"name":"scr_Seek","path":"scripts/scr_Seek/scr_Seek.yy",},},
     {"id":{"name":"scr_Vector_Helpers","path":"scripts/scr_Vector_Helpers/scr_Vector_Helpers.yy",},},
-    {"id":{"name":"ETQ_","path":"scripts/ETQ_/ETQ_.yy",},},
     {"id":{"name":"scr_","path":"scripts/scr_/scr_.yy",},},
     {"id":{"name":"scr_playerInput","path":"scripts/scr_playerInput/scr_playerInput.yy",},},
     {"id":{"name":"obj_pathSetup","path":"objects/obj_pathSetup/obj_pathSetup.yy",},},
@@ -62,6 +61,7 @@
     {"id":{"name":"spr_projectile_precise","path":"sprites/spr_projectile_precise/spr_projectile_precise.yy",},},
     {"id":{"name":"obj_sensor","path":"objects/obj_sensor/obj_sensor.yy",},},
     {"id":{"name":"ETQ_Test_DistanceTo","path":"scripts/ETQ_Test_DistanceTo/ETQ_Test_DistanceTo.yy",},},
+    {"id":{"name":"ETQ_Context","path":"scripts/ETQ_Context/ETQ_Context.yy",},},
     {"id":{"name":"Sprite2","path":"sprites/Sprite2/Sprite2.yy",},},
     {"id":{"name":"scr_Agent_Def","path":"scripts/scr_Agent_Def/scr_Agent_Def.yy",},},
     {"id":{"name":"obj_proj_spawner","path":"objects/obj_proj_spawner/obj_proj_spawner.yy",},},
@@ -82,6 +82,7 @@
     {"id":{"name":"scr_Arrive","path":"scripts/scr_Arrive/scr_Arrive.yy",},},
     {"id":{"name":"spr_soul_test","path":"sprites/spr_soul_test/spr_soul_test.yy",},},
     {"id":{"name":"ETQ_Option","path":"scripts/ETQ_Option/ETQ_Option.yy",},},
+    {"id":{"name":"scr_ds_list_struct_sort","path":"scripts/scr_ds_list_struct_sort/scr_ds_list_struct_sort.yy",},},
     {"id":{"name":"obj_solid","path":"objects/obj_solid/obj_solid.yy",},},
     {"id":{"name":"obj_projectile","path":"objects/obj_projectile/obj_projectile.yy",},},
     {"id":{"name":"scr_TopDown_Movement_Funcitons","path":"scripts/scr_TopDown_Movement_Funcitons/scr_TopDown_Movement_Funcitons.yy",},},

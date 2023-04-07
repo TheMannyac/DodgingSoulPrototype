@@ -1,34 +1,41 @@
 
 
-function ETQ_Query(_contextObj) constructor {
+function ETQ_Query(_querier) constructor {
 	
-	contextObject = _contextObj;
+	querier = _querier;
+	itemList = ds_list_create();
+	
 	optionsArray = array_create(0);
-	
 	/*DEFINE OPTIONS ARRAY HERE
-
+		optionsArray[0] = new ETQ_Option(ETQ_GeneratorType.LocalGridPoints,150,,"");
 	*/
-	optionsArray[0] = new ETQ_Option(ETQ_GeneratorType.LocalGridPoints,150,contextObject,"");
-	
+
 	static RunQuery = function() {
 		
+		//Run each 
 		for (var i = 0; i < array_length(optionsArray); i++){
+			
+			ds_list_clear(itemList);
 			var option = optionsArray[i];
 			
-			ds_list_clear(ds_itemList);
-			option.Generate_Item_List(ds_itemList);
+			option.Generate_Item_List(queier,itemList);
 			
-			//if there's nothing that came from this option's generator then move on 
-			if (ds_list_empty(ds_itemList)) continue;
+			//If the option didn't generate anything
+			if (ds_list_empty(itemList)) {
+				show_debug_message(option.title);
+				continue;
+			}
 			
-			//Run The Option and all its tests
-			option.RunTests();
-			
-			//return success
-			return true;
+			//
+			if (option.RunTests(querier,itemList)) {
+				return true;
+			}
 		}
 		
+		//Return False
+		ds_list_clear(itemList);
+		return false;
 	}
-	
-	
 }
+
+
