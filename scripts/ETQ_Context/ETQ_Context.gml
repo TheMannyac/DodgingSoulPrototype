@@ -1,7 +1,5 @@
 
 
-
-
 function context_x(context) {
 	//if its a vector
 	if (is_array(context)) {

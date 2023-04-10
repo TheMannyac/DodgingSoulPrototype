@@ -85,6 +85,7 @@
     {"id":{"name":"scr_ds_list_struct_sort","path":"scripts/scr_ds_list_struct_sort/scr_ds_list_struct_sort.yy",},},
     {"id":{"name":"obj_solid","path":"objects/obj_solid/obj_solid.yy",},},
     {"id":{"name":"obj_projectile","path":"objects/obj_projectile/obj_projectile.yy",},},
+    {"id":{"name":"scr_WeightGrid","path":"scripts/scr_WeightGrid/scr_WeightGrid.yy",},},
     {"id":{"name":"scr_TopDown_Movement_Funcitons","path":"scripts/scr_TopDown_Movement_Funcitons/scr_TopDown_Movement_Funcitons.yy",},},
     {"id":{"name":"spr_collision","path":"sprites/spr_collision/spr_collision.yy",},},
     {"id":{"name":"scr_Delta_Helpers","path":"scripts/scr_Delta_Helpers/scr_Delta_Helpers.yy",},},
