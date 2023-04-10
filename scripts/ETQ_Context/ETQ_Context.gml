@@ -9,7 +9,7 @@ function context_x(context) {
 	} else {
 		show_error("this context is neither an array nor a valid instance",false)
 		return undefined;
-	}	
+	}
 }
 
 function context_y(context) {
