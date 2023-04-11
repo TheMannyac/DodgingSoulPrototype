@@ -26,13 +26,15 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 		
 		//Find corresponding node for start posiiton
 		var startNode = NodeFromWorldPoint(startX,startY);
-		if (startNode == undefined) {
+		if (startNode == undefined) 
+		{
 			show_error(string("Given start position, [{0},{1}], is not within the grid area and cannot be assigned a node",startX,startY),false);
 			return false	
 		}
 		//find node for end posiiton
 		var endNode = NodeFromWorldPoint(endX,endY);
-		if (endNode == undefined) {
+		if (endNode == undefined) 
+		{
 			show_error(string("Given end position, [{0},{1}], is not within the grid area and cannot be a assigned node",endX,endY),false);
 			return false	
 		}
@@ -41,6 +43,10 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 		var openSet = ds_list_create();
 		var closedSet = ds_list_create();
 		var neighborlist = ds_list_create();
+		
+		//Wrap Start and End Node
+		startNode = new NodeWrapper(startNode,noone,0,0);
+		endNode = new NodeWrapper(endNode,noone);
 		
 		//Add first node to the open list
 		ds_list_add(openSet,startNode)
@@ -53,37 +59,61 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 			
 			 //Because the data structure is not sorted we have to look through it all..
 			 var itr;
-			 for (itr=0;itr<ds_list_size(openSet);itr++) {
+			 for (itr=0;itr<ds_list_size(openSet);itr++) 
+			 {
 				 
-				 if (openSet[|itr] <= currentNode[GridNode.weight] ) {
+				 if (openSet[|itr] <= currentNode[GridNode.weight] )
+				 {
 					currentNode = openSet[|itr];
 				 }
 			 }
 			 
+			 //If Path Found...
+			if (currentNode[GridNode.gridX] == endNode[GridNode.gridX] and currentNode[GridNode.gridY] == endNode[GridNode.gridY]) {
+				
+				//Construct the path in reverse
+				itr = currentNode
+				while (itr) 
+				{
+					path_add_point(path,itr.x,itr.y,100);
+					itr = itr.parentNode
+				}
+				//Reverse the path 
+				path_reverse(path);
+				
+				//cleanup
+				ds_list_destroy(openSet);
+				ds_list_destroy(closedSet)
+				ds_list_destroy(neighborlist);
+				//Return success
+				return true;
+			}
+			 
 			 //Remove from the open and add to the closed
 			 ds_list_delete(openSet,itr);
 			 ds_list_add(closedSet,currentNode);
-			 
-			//If Path Found...
-			if (currentNode[GridNode.gridX] == endNode[GridNode.gridX] and currentNode[GridNode.gridY] == endNode[GridNode.gridY]) {
-				
-				return true;
-			}
 			
 			//Find the Neighbors of the current node
 			ds_list_clear(neighborlist);
 			GetNeighbors(currentNode[GridNode.gridX],currentNode[GridNode.gridY],neighborlist);
 			
-			for (itr=0; itr<ds_list_size(neighborlist);itr++) {
+			for (itr=0; itr<ds_list_size(neighborlist);itr++) 
+			{
 				
 				var nb = neighborlist[|itr];
 				
-				//
-				
-				//validate neighbor node
-				if (ds_list_find_index(nb) == -1) {
-				
+				//If this node is already in the closed set
+				if (ds_list_find_index(closedSet,nb) == -1) 
+				{
+					continue;
 				}
+				
+				//
+				var newCostToNeighbor = currentNode.gCost + point_distance(currentNode.x,currentNode.y,nb.x,nb.y);
+				if (newCostToNeighbor < nb.gCost or ) {
+					
+				}
+				
 			}
 		}
 		
@@ -91,6 +121,32 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 		ds_list_destroy(openSet);
 		ds_list_destroy(closedSet)
 		ds_list_destroy(neighborlist);
+		
+		//return failure
+		return false;
+	}
+	
+	function NodeWrapper(nodeArray,_parentNode,_hCost=0,_gCost=0) constructor{
+		
+		//Node Weight
+		weight = nodeArray[GridNode.weight];
+		//Owning Weight Grid Struct
+		parentWeightGrid = nodeArray[GridNode.owner];
+		//World Position
+		x = nodeArray[GridNode.xPos];
+		y = nodeArray[GridNode.yPos];
+		//Grid Location
+		gridX = nodeArray[GridNode.gridX];
+		gridY = nodeArray[GridNode.gridY];
+		
+		parentNode = _parent
+		hCost = _hCost;
+		gCost = _gCost;
+		
+		function fCost() {
+			return hCost + gCost
+		}
+		
 	}
 	
 	function NodeFromWorldPoint(pointX,pointY) {
@@ -121,7 +177,7 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 		nodeArray[GridNode.weight] = ds_grid_get(ds_myGrid,xx,yy);
 		
 		//Return parent WeightGrid Struct for future retrieval purposes
-		nodeArray[GridNode.parentID] = yy * cellDiameter + (cellDiameter/2);
+		nodeArray[GridNode.owner] = yy * cellDiameter + (cellDiameter/2);
 		
 		//Calculate world position of node; should be in center of cell instead of top left corner
 		nodeArray[GridNode.xPos] = xx * cellDiameter + (cellDiameter/2);
@@ -158,7 +214,7 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 	}
 	
 	
-	function GetDistance(x1,y1,x2,y2) {
+	function GetGridDistance(x1,y1,x2,y2) {
 		var distX = abs(x1-x2);
 		var distY = abs(y1-y2);
 		
@@ -194,7 +250,7 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 }
 
 enum GridNode {
-	parentID,
+	owner,
 	weight,
 	xPos,
 	yPos,
