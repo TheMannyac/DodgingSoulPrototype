@@ -21,134 +21,7 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 	//Set all grid cells to default value
 	ds_grid_set_region(ds_myGrid,0,0,gridSizeX-1,gridSizeY-1,_defaultWeight);
 		
-	//Uses A* to find the best path between two points; returns whether it was successful or not.
-	function FindPath(path,startX,startY,endX,endY) {
 		
-		//Find corresponding node for start posiiton
-		var startNode = NodeFromWorldPoint(startX,startY);
-		if (startNode == undefined) 
-		{
-			show_error(string("Given start position, [{0},{1}], is not within the grid area and cannot be assigned a node",startX,startY),false);
-			return false	
-		}
-		//find node for end posiiton
-		var endNode = NodeFromWorldPoint(endX,endY);
-		if (endNode == undefined) 
-		{
-			show_error(string("Given end position, [{0},{1}], is not within the grid area and cannot be a assigned node",endX,endY),false);
-			return false	
-		}
-		
-		//Create Open and closed Set, remember to destroy these later.
-		var openSet = ds_list_create();
-		var closedSet = ds_list_create();
-		var neighborlist = ds_list_create();
-		
-		//Wrap Start and End Node
-		startNode = new NodeWrapper(startNode,noone,0,0);
-		endNode = new NodeWrapper(endNode,noone);
-		
-		//Add first node to the open list
-		ds_list_add(openSet,startNode)
-		
-		//Loop while there are still nodes in the open set
-		while ( not ds_list_empty(openSet)) {
-			
-			//Node with the lowest fCost (the first time I only have one...)
-			var currentNode = openSet[|0];
-			
-			 //Because the data structure is not sorted we have to look through it all..
-			 var itr;
-			 for (itr=0;itr<ds_list_size(openSet);itr++) 
-			 {
-				 
-				 if (openSet[|itr] <= currentNode[GridNode.weight] )
-				 {
-					currentNode = openSet[|itr];
-				 }
-			 }
-			 
-			 //If Path Found...
-			if (currentNode[GridNode.gridX] == endNode[GridNode.gridX] and currentNode[GridNode.gridY] == endNode[GridNode.gridY]) {
-				
-				//Construct the path in reverse
-				itr = currentNode
-				while (itr) 
-				{
-					path_add_point(path,itr.x,itr.y,100);
-					itr = itr.parentNode
-				}
-				//Reverse the path 
-				path_reverse(path);
-				
-				//cleanup
-				ds_list_destroy(openSet);
-				ds_list_destroy(closedSet)
-				ds_list_destroy(neighborlist);
-				//Return success
-				return true;
-			}
-			 
-			 //Remove from the open and add to the closed
-			 ds_list_delete(openSet,itr);
-			 ds_list_add(closedSet,currentNode);
-			
-			//Find the Neighbors of the current node
-			ds_list_clear(neighborlist);
-			GetNeighbors(currentNode[GridNode.gridX],currentNode[GridNode.gridY],neighborlist);
-			
-			for (itr=0; itr<ds_list_size(neighborlist);itr++) 
-			{
-				
-				var nb = neighborlist[|itr];
-				
-				//If this node is already in the closed set
-				if (ds_list_find_index(closedSet,nb) == -1) 
-				{
-					continue;
-				}
-				
-				//
-				var newCostToNeighbor = currentNode.gCost + point_distance(currentNode.x,currentNode.y,nb.x,nb.y);
-				if (newCostToNeighbor < nb.gCost or ) {
-					
-				}
-				
-			}
-		}
-		
-		//cleanup
-		ds_list_destroy(openSet);
-		ds_list_destroy(closedSet)
-		ds_list_destroy(neighborlist);
-		
-		//return failure
-		return false;
-	}
-	
-	function NodeWrapper(nodeArray,_parentNode,_hCost=0,_gCost=0) constructor{
-		
-		//Node Weight
-		weight = nodeArray[GridNode.weight];
-		//Owning Weight Grid Struct
-		parentWeightGrid = nodeArray[GridNode.owner];
-		//World Position
-		x = nodeArray[GridNode.xPos];
-		y = nodeArray[GridNode.yPos];
-		//Grid Location
-		gridX = nodeArray[GridNode.gridX];
-		gridY = nodeArray[GridNode.gridY];
-		
-		parentNode = _parent
-		hCost = _hCost;
-		gCost = _gCost;
-		
-		function fCost() {
-			return hCost + gCost
-		}
-		
-	}
-	
 	function NodeFromWorldPoint(pointX,pointY) {
 		
 		//Return failure if the given point is not within grid area 
@@ -190,12 +63,19 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 		return nodeArray;
 	}
 	
-	function GetNeighbors(gridX,gridY,returnList) {
+	//Return array of neighbor node arrays from the given grid position
+	function GetNeighbors(gridX,gridY) {
 		
+		//there can never be more than 8 neighbors to any one node so preset it to avoid resizing
+		var arr = array_create(8,-1);
+		//number of neighbors that have been added to the array
+		var i = 0;	
+		
+		//Iterate through all the neighbor cells at all cardinal directions on grid
 		for (var xx=-1; xx<=1; xx++) {
 			for (var yy=-1; yy<=1; yy++) {
 				
-				//don't include the current node.
+				//don't include the current node at given coords.
 				if (xx==0 and yy==0) continue;
 				
 				var gridSizeX = ds_grid_width(ds_myGrid);
@@ -203,14 +83,18 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 				var checkX = gridX + xx;
 				var checkY = gridY + xx;
 				
+				//ensure that the coords aren't out of bounds
 				if (checkX>=0 and checkX < gridSizeX and checkY>=0 and checkY < gridSizeY)
 				{
-					ds_list_add(returnList,GetNode(checkX,checkY));
+					arr[i] = GetNode(checkX,checkY);
+					i++;
 				}
-				
 			}
 		}
-		return returnList;
+		
+		//Resize array to only contain valid array values
+		array_resize(arr,i+1)
+		return arr;
 	}
 	
 	
