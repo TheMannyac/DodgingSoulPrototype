@@ -1,7 +1,7 @@
 
 
 //Uses A* to find the best path between two points; returns whether it was successful or not.
-function FindPath(weightGrid,path,startX,startY,endX,endY) {
+function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 	
 	//validate
 	if (not is_instanceof(weightGrid,WeightGrid)) {
@@ -55,7 +55,7 @@ function FindPath(weightGrid,path,startX,startY,endX,endY) {
 			}
 			
 			//If Path Found...
-			if (currentNode.Equals(endNode)) {
+			if (currentNode == endNode) {
 				
 				//Construct the path in reverse
 				var nd = currentNode
@@ -76,7 +76,7 @@ function FindPath(weightGrid,path,startX,startY,endX,endY) {
 			
 			//Remove from the open and add to the closed set
 			ds_list_delete(openList,currentNode);
-			ds_list_add(closedGrid,currentNode);
+			closedGrid[# currentNode.x,currentNode.y] = currentNode;
 			
 			//Find the Neighbors of the current node
 			var neighbors = GetNeighbors(currentNode.gridX,currentNode.gridY);

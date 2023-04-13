@@ -1,20 +1,20 @@
 
 
 
-function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeight=0) constructor{
+function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0) constructor{
 	
 	//XY position of top left corner of grid; the origin
 	x = _xPos;
 	y = _yPos;
 	
-	worldWidth = _worldWidth;
-	worldHeight = _worldHeight;
+	boxWidth = _boxWidth;
+	boxHeight = _boxHeight;
 	
-	//width/height of each cell in world units 
+	//width/height of each cell in pixels 
 	cellDiameter = _cellSize;
 	
-	var gridSizeX = round(worldWidth/cellDiameter);
-	var gridSizeY = round(worldHeight/cellDiameter);
+	var gridSizeX = round(boxWidth/cellDiameter);
+	var gridSizeY = round(boxHeight/cellDiameter);
 	
 	ds_myGrid = ds_grid_create(gridSizeX,gridSizeY);
 	
@@ -25,9 +25,10 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 	function NodeFromWorldPoint(pointX,pointY) {
 		
 		//Return failure if the given point is not within grid area 
-		var percentX = (pointX + gridCenterPoint_x());
+		var percentX = (pointX + gridCenterPoint_x()) / boxWidth;
 		if ( percentX < 0 or percentX > 1) return undefined;
-		var percentY = (pointY + gridCenterPoint_y());
+		
+		var percentY = (pointY + gridCenterPoint_y()) / boxHeight;
 		if ( percentY < 0 or percentY > 1) return undefined;
 		
 		//percentX = clamp(percentX,0,1);
@@ -110,8 +111,8 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 	}
 	
 	//Finds the world coordinates for the center of the grid
-	function gridCenterPoint_x() {return x + (worldWidth/2);}
-	function gridCenterPoint_y() {return y + (worldHeight/2);}
+	function gridCenterPoint_x() {return x + (boxWidth/2);}
+	function gridCenterPoint_y() {return y + (boxHeight/2);}
 	
 	//Set the X position of the Grid and all its paths
 	function SetX(newX) {
@@ -123,8 +124,65 @@ function WeightGrid(_xPos,_yPos,_worldWidth,_worldHeight,_cellSize,_defaultWeigh
 		y = newY;
 	}
 	
-	function DrawDebug() {
+	function DrawGrid() {
 		
+		var grid_w = ds_grid_width(ds_myGrid);
+		var grid_h = ds_grid_height(ds_myGrid);
+		//y coord of the bottom of the grid box
+		//var right = x + boxWidth
+		//var bottom = y + boxHeight
+		var c1,c2;
+		
+		//Line Color and width
+		c1 = c_ltgray;
+		var lineWidth = 1;
+		
+		//Draw vertical Lines
+		for (var i=0;i<grid_w+1;i++) {
+			
+			var xPos = x+i*cellDiameter;
+			draw_line_fast(xPos,y,xPos,y+boxHeight,lineWidth,c1);
+		}
+		
+		//Draw vertical Lines
+		for (var i=0;i<grid_h+1;i++) {
+			
+			var yPos = y+i*cellDiameter;
+			draw_line_fast(x,yPos,x+boxWidth,yPos,lineWidth,c1);
+		}
+		
+		//Draw Colored Cells
+		c1 = c_lime;
+		c2 = c_red;
+		var margin = (cellDiameter * .80)/2; 
+		
+		for (var xx=0;xx<grid_w;xx++) {
+			
+			var x1 = x + (xx*cellDiameter) //+ margin;
+			var x2 = x1 + cellDiameter //- margin;
+			
+			for (var yy =0; yy<grid_h;yy++) {
+				
+				var y1 = y + (yy * cellDiameter) //+ margin;
+				var y2 = y1 + cellDiameter //- margin;
+				
+				//calculate fill color percent based on normalized cell weight 
+				var weight = ds_grid_get(ds_myGrid,xx,yy);
+				var colorPercent = (weight/2 )+.5;
+				draw_set_color(merge_color(c1,c2,colorPercent))
+				
+				//Determine fill alpha by how close the weight is to the 
+				
+				draw_set_alpha(abs(weight));
+				
+				//draw rectangle
+				draw_rectangle(x1,y1,x2,y2,false);
+			}
+		}
+		
+		//reset Color and alpha
+		draw_set_color(c_white)
+		draw_set_alpha(1);
 	}
 	
 	function Cleanup() {

@@ -11,3 +11,6 @@ global.input_down	=	vk_down;
 global.delta_capped =	Get_Capped_Delta();
 // Normalized value that represents how close the delta is to the intended frame rate
 global.delta_multiplier = Get_Delta_Modifier();
+
+
+global.weightGrid = noone;
