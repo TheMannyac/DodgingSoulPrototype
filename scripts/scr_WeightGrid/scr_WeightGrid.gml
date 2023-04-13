@@ -23,13 +23,26 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		
 		
 	function NodeFromWorldPoint(pointX,pointY) {
-		
-		//Return failure if the given point is not within grid area 
-		var percentX = (pointX + gridCenterPoint_x()) / boxWidth;
+/*		
+		//The horixontal offset of the target point from the grid center  
+		var offsetX = (boxCenterPoint_x() - pointX);
+		var percentX = 1-((offsetX/(boxWidth)));
+		//Ensure that X point is within grid
 		if ( percentX < 0 or percentX > 1) return undefined;
 		
-		var percentY = (pointY + gridCenterPoint_y()) / boxHeight;
+		//The vertical offset of the target point from the grid center  
+		var offsetY = (boxCenterPoint_y() - pointY);
+		var percentY = 1-(( offsetY/(boxHeight) ));
+		//Ensure that Y point is within grid
+		if ( percentX < 0 or percentX > 1) return undefined;
+		*/
+				
+		var percentX = (pointX) / boxWidth;
+		if ( percentX < 0 or percentX > 1) return undefined;
+		
+		var percentY = (pointY) / boxHeight;
 		if ( percentY < 0 or percentY > 1) return undefined;
+		
 		
 		//percentX = clamp(percentX,0,1);
 		//percentY = clamp(percentY,0,1);
@@ -51,7 +64,7 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		nodeArray[GridNode.weight] = ds_grid_get(ds_myGrid,xx,yy);
 		
 		//Return parent WeightGrid Struct for future retrieval purposes
-		nodeArray[GridNode.owner] = yy * cellDiameter + (cellDiameter/2);
+		nodeArray[GridNode.owner] = self;
 		
 		//Calculate world position of node; should be in center of cell instead of top left corner
 		nodeArray[GridNode.xPos] = xx * cellDiameter + (cellDiameter/2);
@@ -111,8 +124,8 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 	}
 	
 	//Finds the world coordinates for the center of the grid
-	function gridCenterPoint_x() {return x + (boxWidth/2);}
-	function gridCenterPoint_y() {return y + (boxHeight/2);}
+	function boxCenterPoint_x() {return x + (boxWidth/2);}
+	function boxCenterPoint_y() {return y + (boxHeight/2);}
 	
 	//Set the X position of the Grid and all its paths
 	function SetX(newX) {
@@ -135,7 +148,7 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		
 		//Line Color and width
 		c1 = c_ltgray;
-		var lineWidth = 1;
+		var lineWidth = 2;
 		
 		//Draw vertical Lines
 		for (var i=0;i<grid_w+1;i++) {

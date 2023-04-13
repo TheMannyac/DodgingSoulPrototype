@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_AStar_Functions",
+  "name": "Script34",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "AI",
-    "path": "folders/Scripts/AI.yy",
+    "name": "Scripts",
+    "path": "folders/Scripts.yy",
   },
 }

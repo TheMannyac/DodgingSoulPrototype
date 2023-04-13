@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_WeightGrid",
+  "name": "scr_weightBrushes",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

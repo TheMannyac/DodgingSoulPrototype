@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "Script32",
+  "name": "scr_AStar",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "Misc",
-    "path": "folders/Scripts/Misc.yy",
+    "name": "Weight Graph",
+    "path": "folders/Scripts/AI/Pathfinding/Weight Graph.yy",
   },
 }

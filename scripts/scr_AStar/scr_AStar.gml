@@ -135,9 +135,11 @@ function NodeWrapper(nodeArray,_parentNode=noone,walkable=true,_hCost=0,_gCost=i
 	//Grid Location
 	gridX = nodeArray[GridNode.gridX];
 	gridY = nodeArray[GridNode.gridY];
-		
-	parentNode = _parentNode
+	
+	parentNode = _parentNode;
+	//the estimate cost to get from this node to the target
 	hCost = _hCost;
+	//The cumulative cost to get here using the current parent path 
 	gCost = _gCost;
 		
 	function fCost() {

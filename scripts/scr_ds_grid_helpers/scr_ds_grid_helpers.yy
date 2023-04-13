@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_WeightGrid",
+  "name": "scr_ds_grid_helpers",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "Weight Graph",
-    "path": "folders/Scripts/AI/Pathfinding/Weight Graph.yy",
+    "name": "Data Management",
+    "path": "folders/Scripts/Data Management.yy",
   },
 }
