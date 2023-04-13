@@ -28,7 +28,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 		//var openList = ds_priority_create();
 		var openList = ds_list_create();
 		var closedGrid = array_create(ds_grid_width(ds_myGrid),
-			array_create(ds_grid_height(ds_myGrid),noone) );
+			array_create(ds_grid_height(ds_myGrid),undefined) );
 		
 		//Wrap Start and End Node (Assumes that both nodes are walkable)
 		startNode = new NodeWrapper(startNode,noone,true,0,0);
@@ -76,7 +76,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 			
 			//Remove from the open and add to the closed set
 			ds_list_delete(openList,currentNode);
-			closedGrid[# currentNode.gridX,currentNode.gridY] = currentNode;
+			closedGrid [currentNode.gridX][currentNode.gridY] = currentNode;
 			
 			//Find the Neighbors of the current node
 			var neighbors = GetNeighbors(currentNode.gridX,currentNode.gridY);
@@ -84,17 +84,21 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 			{
 				//Get Array containing data about neighbor cell
 				var neighbor = neighbors[i];
+				if(is_array(neighbor)) {
+					continue;
+				}
+				
 				var myGridX = neighbor[GridNode.gridX], myGridY = neighbor[GridNode.gridY];
 				
 				//Check if node wrapper struct for this struct already exists in the closed grid
 				var wrapper = closedGrid[myGridX][myGridY]
-				if (wrapper != noone){
+				if (wrapper != undefined){
 					continue;
 				}
 				
 				//Check if a node wrapper already exists for this node in the Open list, create one and add it to the list
 				wrapper = getNodeFromOpenList(openList,neighbor);
-				if (wrapper == noone) {
+				if (wrapper == undefined) {
 					
 					wrapper = new NodeWrapper(neighbor);
 					wrapper.hCost = point_distance(wrapper.x,wrapper.y,endNode.x,endNode.y);
@@ -123,7 +127,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 }
 	
 	
-function NodeWrapper(nodeArray,_parentNode=noone,walkable=true,_hCost=0,_gCost=infinity) constructor{
+function NodeWrapper(nodeArray,_parentNode=undefined,walkable=true,_hCost=0,_gCost=infinity) constructor{
 		
 	//Node Weight
 	weight = nodeArray[GridNode.weight];
@@ -178,6 +182,6 @@ function getNodeFromOpenList(openList,nodeArray) {
 		}
 	}
 	
-	return undefined
+	return undefined;
 	
 }

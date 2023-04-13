@@ -71,8 +71,8 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		nodeArray[GridNode.xPos] = yy * cellDiameter + (cellDiameter/2);
 
 		//Return node's grid position for future retrieval purposes
-		nodeArray[GridNode.gridX] = xx * cellDiameter + (cellDiameter/2);
-		nodeArray[GridNode.gridY] = yy * cellDiameter + (cellDiameter/2);
+		nodeArray[GridNode.gridX] = xx;
+		nodeArray[GridNode.gridY] = yy;
 		
 		return nodeArray;
 	}
@@ -107,7 +107,7 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		}
 		
 		//Resize array to only contain valid array values
-		array_resize(arr,i+1)
+		array_resize(arr,i)
 		return arr;
 	}
 	
