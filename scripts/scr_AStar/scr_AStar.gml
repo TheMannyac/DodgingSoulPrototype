@@ -27,8 +27,8 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 		//Create Open and closed Set
 		//var openList = ds_priority_create();
 		var openList = ds_list_create();
-		var closedGrid = array_create_ext(ds_grid_width(ds_myGrid),
-			function(){array_create(ds_grid_height(ds_myGrid),noone)} );
+		var closedGrid = array_create(ds_grid_width(ds_myGrid),
+			array_create(ds_grid_height(ds_myGrid),noone) );
 		
 		//Wrap Start and End Node (Assumes that both nodes are walkable)
 		startNode = new NodeWrapper(startNode,noone,true,0,0);
@@ -76,7 +76,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 			
 			//Remove from the open and add to the closed set
 			ds_list_delete(openList,currentNode);
-			closedGrid[# currentNode.x,currentNode.y] = currentNode;
+			closedGrid[# currentNode.gridX,currentNode.gridY] = currentNode;
 			
 			//Find the Neighbors of the current node
 			var neighbors = GetNeighbors(currentNode.gridX,currentNode.gridY);
