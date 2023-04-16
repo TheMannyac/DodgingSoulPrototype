@@ -60,15 +60,15 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		
 		var nodeArray = array_create(GridNode.len);
 		
-		//Get the Weight
-		nodeArray[GridNode.weight] = ds_grid_get(ds_myGrid,xx,yy);
-		
 		//Return parent WeightGrid Struct for future retrieval purposes
 		nodeArray[GridNode.owner] = self;
 		
+		//Get the Weight
+		nodeArray[GridNode.weight] = ds_grid_get(ds_myGrid,xx,yy);
+		
 		//Calculate world position of node; should be in center of cell instead of top left corner
 		nodeArray[GridNode.xPos] = xx * cellDiameter + (cellDiameter/2);
-		nodeArray[GridNode.xPos] = yy * cellDiameter + (cellDiameter/2);
+		nodeArray[GridNode.yPos] = yy * cellDiameter + (cellDiameter/2);
 
 		//Return node's grid position for future retrieval purposes
 		nodeArray[GridNode.gridX] = xx;
@@ -82,6 +82,9 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		
 		//there can never be more than 8 neighbors to any one node so preset it to avoid resizing
 		var arr = array_create(8,-1);
+		//Width and height of the grid
+		var gridSizeX = ds_grid_width(ds_myGrid);
+		var gridSizeY = ds_grid_height(ds_myGrid);
 		//number of neighbors that have been added to the array
 		var i = 0;	
 		
@@ -90,12 +93,11 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 			for (var yy=-1; yy<=1; yy++) {
 				
 				//don't include the current node at given coords.
-				if (xx==0 and yy==0) continue;
+				if (xx==0 and yy==0) 
+					continue;
 				
-				var gridSizeX = ds_grid_width(ds_myGrid);
-				var gridSizeY = ds_grid_height(ds_myGrid);
 				var checkX = gridX + xx;
-				var checkY = gridY + xx;
+				var checkY = gridY + yy;
 				
 				//ensure that the coords aren't out of bounds
 				if (checkX>=0 and checkX < gridSizeX and checkY>=0 and checkY < gridSizeY)
