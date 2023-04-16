@@ -1,13 +1,14 @@
 
 
-//Uses A* to find the best path between two points; returns whether it was successful or not.
-function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
+//Uses A* to find the best path between two points; 
+//if "return debug tools is set to falsereturns whether it was successful or not.
+function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=false) {
 	
 	show_debug_message("Begin A* Pathfinding from start point {0},{1} to end point {2},{3}",startX,startY,endX,endY);
 	
-	//validate
+	//validate passed weight grid
 	if (not is_instanceof(weightGrid,WeightGrid)) {
-		return false;
+		return PathfindResults(false,weightGrid,path,startX,startY,endX,endY);
 	}
 	
 	with (weightGrid) {
@@ -16,14 +17,14 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 		if (startNode == undefined) 
 		{
 			show_error(string("Given start position, [{0},{1}], is not within the grid area and cannot be assigned a node",startX,startY),false);
-			return false	
+			return PathfindResults(false,weightGrid,path,startX,startY,endX,endY);
 		}
 		//find node for end posiiton
 		var endNode = NodeFromWorldPoint(endX,endY);
 		if (endNode == undefined) 
 		{
 			show_error(string("Given end position, [{0},{1}], is not within the grid area and cannot be a assigned node",endX,endY),false);
-			return false	
+			return PathfindResults(false,weightGrid,path,startX,startY,endX,endY);
 		}
 		
 		//Create Open and closed Set
@@ -32,8 +33,10 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 		var closedGrid = array_create(ds_grid_width(ds_myGrid),
 			array_create(ds_grid_height(ds_myGrid),undefined) );
 			
-		//Create an array for containing all the nodes that have been added to the closed list
-		var closedArr = [];
+		//Create an array for containing all the nodes that have been added to the closed list (only used for debug tools)
+		var exploredNodes = [];
+		//Create an array that holds all the log strings for each step (only used with debug tools)
+		var stepLogs = [];
 		
 		//Wrap Start and End Node (Assumes that both nodes are walkable)
 		startNode = new NodeWrapper(startNode,noone,true,0,0);
@@ -62,7 +65,6 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 			
 			//If Path Found...
 			if (endNode.Equals(currentNode)) {
-				
 				//Construct the path in reverse
 				var nd = currentNode
 				while (nd != startNode) 
@@ -70,25 +72,27 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 					path_add_point(path,nd.x,nd.y,100);
 					nd = nd.parentNode
 				}
-				
 				//Reverse the path 
 				path_reverse(path);
 				
-				//cleanup
-				ds_list_destroy(openList);
 				//Return success
 				show_debug_message("Pathfinding Success!! Path:");
-				return true;
+				
+				//Create Return Struct
+				var returnStruct;
+				if (returnDebugTools) {
+					returnStruct = new PathfindDebugger(true,weightGrid,path,startX,startY,endX,endY,startNode,endNode,openList,exploredNodes,stepLogs);
+				} else {
+					returnStruct = new PathfindResults(true,weightGrid,path,startX,startY,endX,endY);
+				}
+				//cleanup
+				ds_list_destroy(openList);
+				return returnStruct
 			}
 			
 			//Remove from the open and add to the closed set
 			ds_list_delete(openList,nodePos);
-			
-			
 			closedGrid [currentNode.gridX][currentNode.gridY] = currentNode;
-			
-			//add current node to debug list for ease of printing and debugging later; REMOVE THIS WHEN NOT NEEDED
-			array_push(closedArr,currentNode);
 			
 			//Find the Neighbors of the current node
 			var neighbors = GetNeighbors(currentNode.gridX,currentNode.gridY);
@@ -140,85 +144,38 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY) {
 				ds_list_add(openList,newNodes[i]);
 			}
 			
-			//print this step
-			show_debug_message(print_pathfinding_step(currentNode,openList,closedArr));
-			show_debug_message("");
+			//Create log for this step.
+			if(returnDebugTools) {
+
+				//add current node to debug list for ease of printing and debugging later
+				array_push(exploredNodes,currentNode);
+				//Create Logs
+				var stepLog = print_pathfinding_step(currentNode,openList,exploredNodes)
+				//show_debug_message(stepLog);
+				array_push(stepLogs,stepLog);
+			}
+			
+		}
+		
+		show_debug_message("Pathfinding Failed!");
+
+		//Create Return Struct
+		var returnStruct;
+		if (returnDebugTools) {
+			returnStruct = new PathfindDebugger(false,weightGrid,path,startX,startY,endX,endY,startNode,endNode,openList,exploredNodes,stepLogs);
+		} else {
+			returnStruct = new PathfindResults(false,weightGrid,path,startX,startY,endX,endY);
 		}
 		
 		//cleanup
 		ds_list_destroy(openList);
 		
 		//return failure
-		show_debug_message("Pathfinding Failed!");
-		return false;
-	}
-}
-	
-	
-function NodeWrapper(nodeArray,_parentNode=undefined,walkable=true,_hCost=0,_gCost=infinity) constructor{
-		
-	//Node Weight
-	weight = nodeArray[GridNode.weight];
-	//Owning Weight Grid Struct
-	parentWeightGrid = nodeArray[GridNode.owner];
-	//World Position
-	x = nodeArray[GridNode.xPos];
-	y = nodeArray[GridNode.yPos];
-	//Grid Location
-	gridX = nodeArray[GridNode.gridX];
-	gridY = nodeArray[GridNode.gridY];
-	
-	parentNode = _parentNode;
-	//the estimate cost to get from this node to the target
-	hCost = _hCost;
-	//The cumulative cost to get here using the current parent path 
-	gCost = _gCost;
-		
-	function fCost() {
-		return (hCost + gCost)
-	}
-		
-	//evaluates whether or not two node wrappers are equal
-	function Equals(ndWrapper) {
-
-		//Check if the passed struct is actually a 
-		if (not is_instanceof(ndWrapper,NodeWrapper)) {
-			return false;
-		}			
-		//check if they reference the same Weight Grid Struct;
-		if (parentWeightGrid != ndWrapper.parentWeightGrid) {
-			return false
-		}
-		//Check if they have the same grid position
-		if (gridX != ndWrapper.gridY or gridY != ndWrapper.gridY) {
-			return false
-		}
-			
-		return true;
-	}
-	
-	toString = function() {
-		
-		
-		var myGridPos = string ("Grid Position: [{0},{1}]",gridX,gridY),
-			myWorldPos = string ("Room Position: [{0},{1}]",x,y),
-			myWeight = string("Weight: {0}", weight),
-			myHCost = string("hCost: {0}", hCost),
-			myGCost = string("gCost: {0}", gCost),
-			myFCost = string("F-COST: {0}",fCost())
-			
-			var myParent;
-			if (is_instanceof(parentNode,NodeWrapper)) {
-				myParent = string ("Parent: [{0},{1}]",parentNode.gridX,parentNode.gridY);
-			} else {
-				myParent = string("Parent: UNDEFINED");
-			}
-			
-
-		return myGridPos +"\t" + myWorldPos +"\t"+ myParent +"\t"+ myWeight +"\t"+ myHCost +"\t"+ myGCost+ "\t\t"+ myFCost;
+		return returnStruct;
 		
 	}
 }
+	
 
 //returns bool saying whether a node with the given grid position currently exists in the passed open set
 function getNodeFromOpenList(openList,nodeArray) {
