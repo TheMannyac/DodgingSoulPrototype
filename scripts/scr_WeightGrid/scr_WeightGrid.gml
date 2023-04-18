@@ -118,7 +118,7 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		var distX = abs(x1-x2);
 		var distY = abs(y1-y2);
 		
-		if (distX > distY) 
+		if (distX > distY)
 			return 14 * distY + 10 * (distX - distY);
 		else 
 			return 14 * distX + 10 * (distY - distX);
@@ -159,7 +159,7 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 			draw_line_fast(xPos,y,xPos,y+boxHeight,lineWidth,c1);
 		}
 		
-		//Draw vertical Lines
+		//Draw Horizontal Lines
 		for (var i=0;i<grid_h+1;i++) {
 			
 			var yPos = y+i*cellDiameter;

@@ -28,7 +28,6 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 		}
 		
 		//Create Open and closed Set
-		//var openList = ds_priority_create();
 		var openList = ds_list_create();
 		var closedGrid = array_create(ds_grid_width(ds_myGrid),
 			array_create(ds_grid_height(ds_myGrid),undefined) );
@@ -50,7 +49,6 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 		while ( not ds_list_empty(openList)) {
 			
 			//Node with the lowest fCost (the first time I only have one...)
-			//var currentNode = ds_priorit_delete_max(openList);
 			var currentNode = openList[|0];
 			
 			//Go through list to find best fCost
@@ -80,9 +78,12 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				
 				//Create Return Struct
 				var returnStruct;
-				if (returnDebugTools) {
+				if (returnDebugTools) 
+				{
 					returnStruct = new PathfindDebugger(true,weightGrid,path,startX,startY,endX,endY,startNode,endNode,openList,exploredNodes,stepLogs);
-				} else {
+				} 
+				else
+				{
 					returnStruct = new PathfindResults(true,weightGrid,path,startX,startY,endX,endY);
 				}
 				//cleanup
@@ -100,16 +101,18 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 			//This array will be used to store all the new neighbor node wrapper structs that will be added after we're done assessing the neighbors
 			var newNodes = array_create(array_length(neighbors),undefined);
 			var newNodeNum = 0;
-			
 			for (var i=0; i<array_length(neighbors);i++) 
 			{
 				//Get Array containing data about neighbor cell
 				var neighbor = neighbors[i];
+				
+				
 				if(not is_array(neighbor)) {
 					continue;
 				}
 				
-				var myGridX = neighbor[GridNode.gridX], myGridY = neighbor[GridNode.gridY];
+				var myGridX = neighbor[GridNode.gridX];
+				var myGridY = neighbor[GridNode.gridY];
 				
 				//Check if node wrapper struct for this struct already exists in the closed grid
 				var wrapper = closedGrid[myGridX][myGridY]
@@ -122,19 +125,19 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				if (wrapper == undefined) {
 					
 					wrapper = new NodeWrapper(neighbor);
-					wrapper.hCost = GetDistance_Euclidean(wrapper,endNode);
+					wrapper.hCost = weightGrid.GetGridDistance(wrapper.gridX,wrapper.gridY,endNode.gridX,endNode.gridY);//GetDistance_Euclidean(wrapper,endNode);
 					//Add this to open list after we're done
 					newNodes[newNodeNum] = wrapper;
 					newNodeNum++;
 				} 
 				
 				//Calculate the hypothetical gCost of traveling to this neighbor from the current node
-				var newCostToNeighbor = currentNode.gCost + GetDistance_Euclidean(currentNode,wrapper);		
-				
+				var newCostToNeighbor = currentNode.gCost + weightGrid.GetGridDistance(currentNode.gridX,currentNode.gridY,endNode.gridX,endNode.gridY); //GetDistance_Euclidean(currentNode,wrapper);		
 				//If its smaller than the neighbor's current gCost, then set its new parent to be the current node
 				if (newCostToNeighbor < wrapper.gCost) {
 					
 					wrapper.gCost = newCostToNeighbor;
+					//wrapper.hCost = GetDistance_Euclidean(wrapper,endNode);
 					wrapper.parentNode = currentNode;
 				}
 			}
@@ -150,11 +153,10 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				//add current node to debug list for ease of printing and debugging later
 				array_push(exploredNodes,currentNode);
 				//Create Logs
-				var stepLog = print_pathfinding_step(currentNode,openList,exploredNodes)
+				var log = print_pathfinding_step(currentNode,openList,exploredNodes)
 				//show_debug_message(stepLog);
-				array_push(stepLogs,stepLog);
+				array_push(stepLogs,log);
 			}
-			
 		}
 		
 		show_debug_message("Pathfinding Failed!");
@@ -222,5 +224,9 @@ function print_pathfinding_step(currentNode,openList,closedArr) {
 
 
 function GetDistance_Euclidean(beginNode,goalNode) {
-	return abs((goalNode.x - beginNode.x)^2 + (beginNode.y - goalNode.y)^2);
+	
+	// point_distance(beginNode.x,beginNode.y,goalNode.x,goalNode.y);
+	var xDelta =abs( beginNode.x - goalNode.x);
+	var yDelta = abs(beginNode.y - goalNode.y);
+	return sqrt( (xDelta)^2 + (yDelta)^2);
 }

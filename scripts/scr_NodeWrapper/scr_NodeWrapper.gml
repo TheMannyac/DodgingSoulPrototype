@@ -1,6 +1,6 @@
 
 
-function NodeWrapper(nodeArray,_parentNode=undefined,walkable=true,_hCost=0,_gCost=infinity) constructor{
+function NodeWrapper(nodeArray,_parentNode=undefined,_walkable=true,_hCost=0,_gCost=infinity) constructor{
 		
 	//Node Weight
 	weight = nodeArray[GridNode.weight];
@@ -10,6 +10,8 @@ function NodeWrapper(nodeArray,_parentNode=undefined,walkable=true,_hCost=0,_gCo
 	//Grid Location
 	gridX = nodeArray[GridNode.gridX];
 	gridY = nodeArray[GridNode.gridY];
+	
+	walkable = _walkable
 	
 	parentNode = _parentNode;
 	//the estimate cost to get from this node to the target
@@ -28,10 +30,7 @@ function NodeWrapper(nodeArray,_parentNode=undefined,walkable=true,_hCost=0,_gCo
 		if (not is_instanceof(ndWrapper,NodeWrapper)) {
 			return false;
 		}			
-		//check if they reference the same Weight Grid Struct;
-		if (parentWeightGrid != ndWrapper.parentWeightGrid) {
-			return false
-		}
+
 		//Check if they have the same grid position
 		if (gridX != ndWrapper.gridY or gridY != ndWrapper.gridY) {
 			return false
@@ -55,8 +54,7 @@ function NodeWrapper(nodeArray,_parentNode=undefined,walkable=true,_hCost=0,_gCo
 			} else {
 				myParent = string("Parent: UNDEFINED");
 			}
-			
-
+		//return final result 
 		return myGridPos +"\t" + myWorldPos +"\t"+ myParent +"\t"+ myWeight +"\t"+ myHCost +"\t"+ myGCost+ "\t\t"+ myFCost;
 		
 	}

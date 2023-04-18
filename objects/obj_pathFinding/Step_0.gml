@@ -3,25 +3,28 @@
 
 if (mouse_check_button_pressed(mb_middle)) {
 	
+	//if no weight grid exists then return 
 	if (global.weightGrid == noone) 
 		return;
 	
 	target_x = mouse_x;
 	target_y = mouse_y;
 
+	//Delete any old path instances
 	if (path_exists(myPath)) {
 		path_delete(myPath);
 		myPath = undefined;
 	}
 
+	//Create new path instance
 	myPath = path_add();
 
+	//create marker object instance
 	if (instance_exists(marker)) 
 		instance_destroy(marker);
-
 	marker = instance_create_layer(mouse_x,mouse_y,"Markers",obj_navMarker);
 	
-	//garbage collect the old 
+	//garbage collect the old pathfinding results struct
 	if(is_struct(pathResults)) {
 		delete pathResults;
 		pathResults = undefined;
@@ -32,7 +35,9 @@ if (mouse_check_button_pressed(mb_middle)) {
 	
 	if (pathResults.success == true) {
 		path_start(myPath,5,path_action_stop,true);
-	}	
+	} else {
+		
+	}
 }
 
 
