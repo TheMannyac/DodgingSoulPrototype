@@ -68,7 +68,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				while (nd != startNode) 
 				{
 					path_add_point(path,nd.x,nd.y,100);
-					nd = nd.parentNode
+					nd = nd.parentNode;
 				}
 				//Reverse the path 
 				path_reverse(path);
@@ -122,23 +122,30 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				
 				//Check if a node wrapper already exists for this node in the Open list, create one and add it to the list
 				wrapper = getNodeFromOpenList(openList,neighbor);
+				var isInOpenSet = true;
 				if (wrapper == undefined) {
 					
 					wrapper = new NodeWrapper(neighbor);
-					wrapper.hCost = weightGrid.GetGridDistance(wrapper.gridX,wrapper.gridY,endNode.gridX,endNode.gridY);//GetDistance_Euclidean(wrapper,endNode);
+					wrapper.hCost = GetGridDistance(wrapper.gridX,wrapper.gridY,endNode.gridX,endNode.gridY);//GetDistance_Euclidean(wrapper,endNode);
 					//Add this to open list after we're done
-					newNodes[newNodeNum] = wrapper;
-					newNodeNum++;
+					
+					
+					isInOpenSet = false;
 				} 
 				
 				//Calculate the hypothetical gCost of traveling to this neighbor from the current node
-				var newCostToNeighbor = currentNode.gCost + weightGrid.GetGridDistance(currentNode.gridX,currentNode.gridY,endNode.gridX,endNode.gridY); //GetDistance_Euclidean(currentNode,wrapper);		
+				var newCostToNeighbor = currentNode.gCost + GetGridDistance(currentNode.gridX,currentNode.gridY,endNode.gridX,endNode.gridY); //GetDistance_Euclidean(currentNode,wrapper);		
 				//If its smaller than the neighbor's current gCost, then set its new parent to be the current node
 				if (newCostToNeighbor < wrapper.gCost) {
 					
 					wrapper.gCost = newCostToNeighbor;
 					//wrapper.hCost = GetDistance_Euclidean(wrapper,endNode);
 					wrapper.parentNode = currentNode;
+					if(not isInOpenSet) {
+						newNodes[newNodeNum] = wrapper;
+						newNodeNum++;
+					}
+					
 				}
 			}
 			
@@ -147,7 +154,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				ds_list_add(openList,newNodes[i]);
 			}
 			
-			//Create log for this step.
+			//create debug tools
 			if(returnDebugTools) {
 
 				//add current node to debug list for ease of printing and debugging later
@@ -192,7 +199,6 @@ function getNodeFromOpenList(openList,nodeArray) {
 	}
 	
 	return undefined;
-	
 }
 
 function print_pathfinding_step(currentNode,openList,closedArr) {
@@ -226,7 +232,7 @@ function print_pathfinding_step(currentNode,openList,closedArr) {
 function GetDistance_Euclidean(beginNode,goalNode) {
 	
 	// point_distance(beginNode.x,beginNode.y,goalNode.x,goalNode.y);
-	var xDelta =abs( beginNode.x - goalNode.x);
+	var xDelta = abs( beginNode.x - goalNode.x);
 	var yDelta = abs(beginNode.y - goalNode.y);
 	return sqrt( (xDelta)^2 + (yDelta)^2);
 }
