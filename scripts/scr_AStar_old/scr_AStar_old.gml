@@ -6,6 +6,9 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 	
 	show_debug_message("Begin A* Pathfinding from start point {0},{1} to end point {2},{3}",startX,startY,endX,endY);
 	
+	//The number of times that this fires
+	static iterationLimit = 1000;
+	
 	//validate passed weight grid
 	if (not is_instanceof(weightGrid,WeightGrid)) {
 		return PathfindResults(false,weightGrid,path,startX,startY,endX,endY);
@@ -27,11 +30,14 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 			return PathfindResults(false,weightGrid,path,startX,startY,endX,endY);
 		}
 		
-		//Create Open and closed Set
+		//Create Open Set
 		var openList = ds_list_create();
-		var closedGrid = array_create(ds_grid_width(ds_myGrid),
-			array_create(ds_grid_height(ds_myGrid),undefined) );
-			
+		//Create Closed Grid
+		var closedGrid = array_create(ds_grid_height(ds_myGrid));
+		for (var i=0;i<array_length(closedGrid);i++) {
+			closedGrid[i] = array_create(ds_grid_width(ds_myGrid),undefined);
+		}
+		
 		//Create an array for containing all the nodes that have been added to the closed list (only used for debug tools)
 		var exploredNodes = [];
 		//Create an array that holds all the log strings for each step (only used with debug tools)
@@ -46,7 +52,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 		ds_list_add(openList,startNode);
 		
 		//Loop while there are still nodes in the open set
-		while ( not ds_list_empty(openList)) {
+		while ( not ds_list_empty(openList) and array_length(exploredNodes) < iterationLimit) {
 			
 			//Node with the lowest fCost (the first time I only have one...)
 			var currentNode = openList[|0];
@@ -65,8 +71,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 			if (endNode.Equals(currentNode)) {
 				//Construct the path in reverse
 				var nd = currentNode
-				while (nd != startNode) 
-				{
+				while (nd != startNode) {
 					path_add_point(path,nd.x,nd.y,100);
 					nd = nd.parentNode;
 				}
@@ -78,12 +83,10 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				
 				//Create Return Struct
 				var returnStruct;
-				if (returnDebugTools) 
-				{
+				if (returnDebugTools) {
 					returnStruct = new PathfindDebugger(true,weightGrid,path,startX,startY,endX,endY,startNode,endNode,openList,exploredNodes,stepLogs);
 				} 
-				else
-				{
+				else {
 					returnStruct = new PathfindResults(true,weightGrid,path,startX,startY,endX,endY);
 				}
 				//cleanup
@@ -93,7 +96,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 			
 			//Remove from the open and add to the closed set
 			ds_list_delete(openList,nodePos);
-			closedGrid [currentNode.gridX][currentNode.gridY] = currentNode;
+			closedGrid [currentNode.gridY][currentNode.gridX] = currentNode;
 			
 			//Find the Neighbors of the current node
 			var neighbors = GetNeighbors(currentNode.gridX,currentNode.gridY);
@@ -115,7 +118,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				var myGridY = neighbor[GridNode.gridY];
 				
 				//Check if node wrapper struct for this struct already exists in the closed grid
-				var wrapper = closedGrid[myGridX][myGridY]
+				var wrapper = closedGrid[myGridY][myGridX]
 				if (wrapper != undefined){
 					continue;
 				}
@@ -126,7 +129,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				if (wrapper == undefined) {
 					
 					wrapper = new NodeWrapper(neighbor);
-					wrapper.hCost = GetGridDistance(wrapper.gridX,wrapper.gridY,endNode.gridX,endNode.gridY);//GetDistance_Euclidean(wrapper,endNode);
+					wrapper.hCost = GetDGridistance_Euclidean(wrapper,endNode);
 					//Add this to open list after we're done
 					
 					
@@ -134,7 +137,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				} 
 				
 				//Calculate the hypothetical gCost of traveling to this neighbor from the current node
-				var newCostToNeighbor = currentNode.gCost + GetGridDistance(currentNode.gridX,currentNode.gridY,endNode.gridX,endNode.gridY); //GetDistance_Euclidean(currentNode,wrapper);		
+				var newCostToNeighbor = currentNode.gCost + GetDGridistance_Euclidean(currentNode,endNode);	
 				//If its smaller than the neighbor's current gCost, then set its new parent to be the current node
 				if (newCostToNeighbor < wrapper.gCost) {
 					
@@ -166,7 +169,10 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 			}
 		}
 		
-		show_debug_message("Pathfinding Failed!");
+		show_debug_message("\nPathfinding Failed!");
+		if (array_length(exploredNodes) >= iterationLimit) {
+			show_debug_message("Iteration Limit of {0} reached; auto-terminated to avoid infinite loop",iterationLimit);	
+		}
 
 		//Create Return Struct
 		var returnStruct;
@@ -228,11 +234,30 @@ function print_pathfinding_step(currentNode,openList,closedArr) {
 	
 }
 
-
-function GetDistance_Euclidean(beginNode,goalNode) {
+function GetDGridistance_Euclidean(beginNode,goalNode) {
 	
-	// point_distance(beginNode.x,beginNode.y,goalNode.x,goalNode.y);
-	var xDelta = abs( beginNode.x - goalNode.x);
-	var yDelta = abs(beginNode.y - goalNode.y);
-	return sqrt( (xDelta)^2 + (yDelta)^2);
+	return sqr(point_distance(beginNode.x,beginNode.y,goalNode.x,goalNode.y));
+	//var xD = abs(beginNode.gridX - goalNode.gridX);
+	//var yD = abs(beginNode.gridY - goalNode.gridY);
+	//return max(xD,yD);
+}
+
+function GetDistance_Diagonal(weightGrid,beginNode,goalNode) {
+	
+		//if (not is_instanceof(weightGrid,WeightGrid)) {show_error("passed weightGrid not valid",true);}
+	
+		return sqr(goalNode.gridX-beginNode.gridX)+sqr(goalNode.gridY-beginNode.gridY);
+		
+		
+		/*
+		//get the difference in grid distance
+		var xD = abs(beginNode.gridX-goalNode.gridY);
+		var yD = abs(beginNode.gridY-goalNode.gridY);
+		
+		//gets the precalculated distance between nodes
+		var straightDist = weightGrid.cellDiameter;
+		var diagDist = weightGrid.diagDistance;
+		*/
+		
+	
 }

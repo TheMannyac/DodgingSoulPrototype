@@ -12,6 +12,7 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 	
 	//width/height of each cell in pixels 
 	cellDiameter = _cellSize;
+	diagDistance = SQRT_2 * cellDiameter;
 	
 	var gridSizeX = round(boxWidth/cellDiameter);
 	var gridSizeY = round(boxHeight/cellDiameter);
@@ -114,16 +115,6 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 	}
 	
 	
-	function GetGridDistance(x1,y1,x2,y2) {
-		var distX = abs(x1-x2);
-		var distY = abs(y1-y2);
-		
-		if (distX > distY)
-			return 14 * distY + 10 * (distX - distY);
-		else 
-			return 14 * distX + 10 * (distY - distX);
-		
-	}
 	
 	//Finds the world coordinates for the center of the grid
 	function boxCenterPoint_x() {return x + (boxWidth/2);}

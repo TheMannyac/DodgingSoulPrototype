@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "scr_AStar",
+  "name": "scr_AStar_old",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

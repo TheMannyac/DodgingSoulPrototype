@@ -32,14 +32,18 @@ function NodeWrapper(nodeArray,_parentNode=undefined,_walkable=true,_hCost=0,_gC
 		}			
 
 		//Check if they have the same grid position
-		if (gridX != ndWrapper.gridY or gridY != ndWrapper.gridY) {
+		if (gridX != ndWrapper.gridX or gridY != ndWrapper.gridY) {
 			return false
 		}
 			
 		return true;
 	}
 	
-	toString = function() {
+	function myID() {
+		return [gridX,gridY];
+	}
+	
+	static toString = function() {
 		
 		var myGridPos = string ("Grid Position: [{0},{1}]",gridX,gridY),
 			myWorldPos = string ("Room Position: [{0},{1}]",x,y),
