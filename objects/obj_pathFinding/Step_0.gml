@@ -18,6 +18,7 @@ if (mouse_check_button_pressed(mb_middle)) {
 
 	//Create new path instance
 	myPath = path_add();
+	path_set_closed(myPath,false)
 
 	//create marker object instance
 	if (instance_exists(marker)) 
@@ -31,15 +32,16 @@ if (mouse_check_button_pressed(mb_middle)) {
 	}
 	
 	//Attempt to Pathfind
-	pathResults = wg_find_path(global.weightGrid,myPath,x,y,target_x,target_y,true);
+	pathResults = wg_find_path(global.weightGrid,myPath,x,y,target_x,target_y,0,true);
 	
 	if (pathResults.success == true) {
+		path_print_all_points(myPath);
 		path_start(myPath,5,path_action_stop,true);
 	} else {
 		
 	}
 	
-	pathResults.printLogs();
+	//pathResults.printLogs();
 }
 
 

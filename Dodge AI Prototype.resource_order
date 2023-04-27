@@ -72,6 +72,7 @@
     {"name":"spr_pixel","order":1,"path":"sprites/spr_pixel/spr_pixel.yy",},
     {"name":"scr_Follow_Path","order":4,"path":"scripts/scr_Follow_Path/scr_Follow_Path.yy",},
     {"name":"scr_Agent_Helpers","order":1,"path":"scripts/scr_Agent_Helpers/scr_Agent_Helpers.yy",},
+    {"name":"scr_path_helpers","order":4,"path":"scripts/scr_path_helpers/scr_path_helpers.yy",},
     {"name":"scr_weightBrushes","order":2,"path":"scripts/scr_weightBrushes/scr_weightBrushes.yy",},
     {"name":"Enums","order":1,"path":"scripts/Enums/Enums.yy",},
     {"name":"scr_Obstacle_Avoidance","order":7,"path":"scripts/scr_Obstacle_Avoidance/scr_Obstacle_Avoidance.yy",},

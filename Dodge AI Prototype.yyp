@@ -105,6 +105,7 @@
     {"id":{"name":"ETQ_Test","path":"scripts/ETQ_Test/ETQ_Test.yy",},},
     {"id":{"name":"scr_Follow_Path","path":"scripts/scr_Follow_Path/scr_Follow_Path.yy",},},
     {"id":{"name":"scr_Agent_Helpers","path":"scripts/scr_Agent_Helpers/scr_Agent_Helpers.yy",},},
+    {"id":{"name":"scr_path_helpers","path":"scripts/scr_path_helpers/scr_path_helpers.yy",},},
     {"id":{"name":"scr_weightBrushes","path":"scripts/scr_weightBrushes/scr_weightBrushes.yy",},},
     {"id":{"name":"Enums","path":"scripts/Enums/Enums.yy",},},
     {"id":{"name":"scr_Obstacle_Avoidance","path":"scripts/scr_Obstacle_Avoidance/scr_Obstacle_Avoidance.yy",},},

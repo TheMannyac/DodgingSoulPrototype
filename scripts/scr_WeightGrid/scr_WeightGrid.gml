@@ -17,6 +17,7 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 	var gridSizeX = round(boxWidth/cellDiameter);
 	var gridSizeY = round(boxHeight/cellDiameter);
 	
+	//create grid data structure
 	ds_myGrid = ds_grid_create(gridSizeX,gridSizeY);
 	
 	//Set all grid cells to default value
@@ -24,29 +25,12 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		
 		
 	function NodeFromWorldPoint(pointX,pointY) {
-/*		
-		//The horixontal offset of the target point from the grid center  
-		var offsetX = (boxCenterPoint_x() - pointX);
-		var percentX = 1-((offsetX/(boxWidth)));
-		//Ensure that X point is within grid
-		if ( percentX < 0 or percentX > 1) return undefined;
-		
-		//The vertical offset of the target point from the grid center  
-		var offsetY = (boxCenterPoint_y() - pointY);
-		var percentY = 1-(( offsetY/(boxHeight) ));
-		//Ensure that Y point is within grid
-		if ( percentX < 0 or percentX > 1) return undefined;
-		*/
 				
 		var percentX = (pointX) / boxWidth;
 		if ( percentX < 0 or percentX > 1) return undefined;
 		
 		var percentY = (pointY) / boxHeight;
 		if ( percentY < 0 or percentY > 1) return undefined;
-		
-		
-		//percentX = clamp(percentX,0,1);
-		//percentY = clamp(percentY,0,1);
 		
 		//Use the percent to find the grid posiiton of the node
 		var gridSizeX = ds_grid_width(ds_myGrid), gridSizeY = ds_grid_height(ds_myGrid);
@@ -114,8 +98,6 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		return arr;
 	}
 	
-	
-	
 	//Finds the world coordinates for the center of the grid
 	function boxCenterPoint_x() {return x + (boxWidth/2);}
 	function boxCenterPoint_y() {return y + (boxHeight/2);}
@@ -158,8 +140,8 @@ function WeightGrid(_xPos,_yPos,_boxWidth,_boxHeight,_cellSize,_defaultWeight=0)
 		}
 		
 		//Draw Colored Cells
-		c1 = c_lime;
-		c2 = c_red;
+		c1 = c_red;
+		c2 = c_lime;
 		var margin = (cellDiameter * .80)/2; 
 		
 		for (var xx=0;xx<grid_w;xx++) {

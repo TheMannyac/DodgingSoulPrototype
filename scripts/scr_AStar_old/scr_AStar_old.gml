@@ -1,8 +1,8 @@
 
 
-//Uses A* to find the best path between two points; 
-//if "return debug tools is set to falsereturns whether it was successful or not.
-function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=false) {
+//Uses a custom implementation of the A* pathfinding algorithm to find the best path between two world points; 
+//
+function wg_find_path(weightGrid,path,startX,startY,endX,endY,minWalkableWeight = 0, returnDebugTools=false) {
 	
 	show_debug_message("Begin A* Pathfinding from start point {0},{1} to end point {2},{3}",startX,startY,endX,endY);
 	
@@ -44,8 +44,12 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 		var stepLogs = [];
 		
 		//Wrap Start and End Node (Assumes that both nodes are walkable)
-		startNode = new NodeWrapper(startNode,noone,true,0,0);
-		endNode = new NodeWrapper(endNode,noone,true,0,0);
+		startNode = new NodeWrapper(startNode,undefined,true,0,0);
+		endNode = new NodeWrapper(endNode,undefined,true,0,0);
+		
+		show_debug_message("Converted Start and End Points to closest nodes in grid position");
+		show_debug_message("Start Node: [{0},{1}]",startNode.gridX,startNode.gridY);
+		show_debug_message("End Node: [{0},{1}]",endNode.gridX,endNode.gridY);
 		
 		//Add first node to the open list
 		//ds_priority_add(openList,startNode,0)
@@ -69,17 +73,23 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 			
 			//If Path Found...
 			if (endNode.Equals(currentNode)) {
+				
+				show_debug_message("Pathfinding Success!! Path:");
+				
 				//Construct the path in reverse
+				show_debug_message("Reverse path grid points")
 				var nd = currentNode
-				while (nd != startNode) {
-					path_add_point(path,nd.x,nd.y,100);
+				do {
+					
+					show_debug_message("[{0},{1}]",nd.gridX,nd.gridY);
+					
+					path_add_point(path,nd.x,nd.y,50);
 					nd = nd.parentNode;
-				}
+				} 
+				until (nd == undefined);
+				
 				//Reverse the path 
 				path_reverse(path);
-				
-				//Return success
-				show_debug_message("Pathfinding Success!! Path:");
 				
 				//Create Return Struct
 				var returnStruct;
@@ -91,6 +101,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				}
 				//cleanup
 				ds_list_destroy(openList);
+				//Return success
 				return returnStruct
 			}
 			
@@ -100,7 +111,6 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 			
 			//Find the Neighbors of the current node
 			var neighbors = GetNeighbors(currentNode.gridX,currentNode.gridY);
-			
 			//This array will be used to store all the new neighbor node wrapper structs that will be added after we're done assessing the neighbors
 			var newNodes = array_create(array_length(neighbors),undefined);
 			var newNodeNum = 0;
@@ -109,16 +119,18 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 				//Get Array containing data about neighbor cell
 				var neighbor = neighbors[i];
 				
-				
-				if(not is_array(neighbor)) {
+				//if the current neighbor node data structure is valid
+				if( not is_array(neighbor) ) {
 					continue;
 				}
 				
-				var myGridX = neighbor[GridNode.gridX];
-				var myGridY = neighbor[GridNode.gridY];
+				//check if the weight of this neighbor is acceptable to walk on.
+				if (neighbor[GridNode.weight] < minWalkableWeight) {
+					continue;
+				}
 				
 				//Check if node wrapper struct for this struct already exists in the closed grid
-				var wrapper = closedGrid[myGridY][myGridX]
+				var wrapper = closedGrid[neighbor[GridNode.gridY]][neighbor[GridNode.gridX]]
 				if (wrapper != undefined){
 					continue;
 				}
@@ -131,7 +143,6 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 					wrapper = new NodeWrapper(neighbor);
 					wrapper.hCost = GetDGridistance_Euclidean(wrapper,endNode);
 					//Add this to open list after we're done
-					
 					
 					isInOpenSet = false;
 				} 
@@ -148,7 +159,6 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 						newNodes[newNodeNum] = wrapper;
 						newNodeNum++;
 					}
-					
 				}
 			}
 			
@@ -187,7 +197,6 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,returnDebugTools=f
 		
 		//return failure
 		return returnStruct;
-		
 	}
 }
 	
