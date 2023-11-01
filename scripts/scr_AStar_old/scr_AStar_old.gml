@@ -99,6 +99,7 @@ function wg_find_path(weightGrid,path,startX,startY,endX,endY,minWalkableWeight 
 				else {
 					returnStruct = new PathfindResults(true,weightGrid,path,startX,startY,endX,endY);
 				}
+					
 				//cleanup
 				ds_list_destroy(openList);
 				//Return success
